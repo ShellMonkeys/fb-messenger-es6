@@ -43,13 +43,14 @@ export default class Client {
     }
 
     send(message, recipient, notificationType = 'REGULAR') {
+        const messageBody = message.getMessage();
         validate.notNull(recipient, 'recipient.id', 'Client.send');
-        validate.notNull(message, 'message', 'Client.send');
+        validate.notNull(messageBody, 'message', 'Client.send');
         validate.oneOf(notificationType, ['REGULAR', 'SILENT_PUSH', 'NO_PUSH'], 'notification_type', 'Client.send');
 
         const facebookEnvelope = {
             recipient: { id: recipient },
-            message: { ...message },
+            message: { ...messageBody },
             notification_type: notificationType,
         };
 
