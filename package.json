@@ -1,0 +1,39 @@
+{
+  "name": "fb-messenger-es6",
+  "version": "0.0.1",
+  "description": "Facebook Messenger plaform library",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShellMonkeys/fb-messenger-es6.git"
+  },
+  "keywords": [
+    "facebook",
+    "messenger"
+  ],
+  "author": "ShellMonkeys",
+  "contributors": ["Kira", "David", "Tuti"],
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/ShellMonkeys/fb-messenger-es6/issues"
+  },
+  "homepage": "https://github.com/ShellMonkeys/fb-messenger-es6#readme",
+  "dependencies": {
+    "https-proxy-agent": "^1.0.0",
+    "moment": "^2.17.1",
+    "node-fetch": "^1.6.3",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0"
+  }
+}
