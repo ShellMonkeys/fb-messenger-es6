@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint .",
     "build": "babel src -s -D -d dist",
-    "test": "npm run lint"
+    "test": "npm run lint",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
