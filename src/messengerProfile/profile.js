@@ -58,6 +58,9 @@ export default class MessengerProfile {
 
     addPersistentMenu(menu) {
         validate.oneOf(menu.constructor.name, [PersistentMenu.name], 'persistent_menu.type', 'MessengerProfile.addPersistentMenu');
+        if (menu.composer_input_disabled === true && validate.isEmpty(menu.call_to_actions)) {
+            throw new Error('PersistentMenu.disableUserInput: Either composer_input_disabled or call_to_actions (or both) must be set');
+        }
         if (validate.isNull(this.state.persistent_menu)) {
             this.state.persistent_menu = [];
         }

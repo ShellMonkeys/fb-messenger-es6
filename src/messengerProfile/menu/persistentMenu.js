@@ -32,9 +32,6 @@ export default class PersistentMenu extends Menu {
     }
 
     disableUserInput(disable) {
-        if (disable !== true && this.call_to_actions) {
-            throw new Error('PersistentMenu.disableUserInput: Either composer_input_disabled is false or call_to_actions is set');
-        }
         this.composer_input_disabled = disable;
         return this;
     }
