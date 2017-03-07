@@ -54,16 +54,16 @@
     "tape-catch": "^1.0.6"
   },
   "nyc": {
-      "include": [
-          "src"
-      ],
-      "exclude": [
-          "src/util/logger.js",
-          "index.js"
-      ],
-      "reporter": [
-        "lcov",
-        "text"
-      ]
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "src/util/logger.js",
+      "index.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ]
   }
 }
