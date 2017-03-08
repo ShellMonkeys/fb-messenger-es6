@@ -171,6 +171,17 @@ test('validate.oneOf - error', (expect) => {
     expect.end();
 });
 
+test('validate.oneOf - no error', (expect) => {
+    try {
+        validate.oneOf('messenger', ['messenger', 'whatsapp', 'instagram'], 'oneOfTest', 'validate.oneOf.test');
+        expect.pass('should not throw error for valid input');
+    }
+    catch (e) {
+        expect.fail('should not throw error for valid input');
+    }
+    expect.end();
+});
+
 test('validate.url - no error', (expect) => {
     try {
         validate.url('http://www.google.com', 'validate.url.test');
