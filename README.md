@@ -32,5 +32,5 @@ const facebook = new Client(<page_access_token>, { hostname:<proxy_hostname>, po
 import  * as Facebook from 'fb-messenger-es6';
 
 const facebook = new Facebook.Client(<page_access_token>);
-facebook.send(new Facebook.TextMessage('some text', <sender_id>));
+facebook.send(new Facebook.TextMessage('some text'), <recipient_id>);
 ```
