@@ -13,3 +13,4 @@ dist
 # Code coverage
 .nyc_output
 coverage
+.coveralls.yml
