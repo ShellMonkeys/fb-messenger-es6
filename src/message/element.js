@@ -38,8 +38,8 @@ class Element {
 }
 
 export class GenericElement extends Element {
-    validateButtons(max = 3) {
-        validate.arrayLength(this.buttons, 1, max, 'buttons', 'Element.validateButtons');
+    validateButtons() {
+        validate.arrayLength(this.buttons, 1, 3, 'buttons', 'Element.validateButtons');
         // TODO: check that if button.type === 'ShareButton' then there's only one other button with type === web_url
     }
 
@@ -48,7 +48,7 @@ export class GenericElement extends Element {
             this.buttons = [];
         }
         this.buttons.push(button);
-        this.validateButtons(3);
+        this.validateButtons();
         return this;
     }
 }

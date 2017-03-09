@@ -1,5 +1,7 @@
 import validate from '../util/validate';
 
+const MAX_QR = 11;
+
 export default class Message {
     constructor() {
         return this;
@@ -13,17 +15,22 @@ export default class Message {
         return { ...this };
     }
 
-    validateQuickReply(max = 11) {
-        if (this.quick_replies) {
-            validate.arrayLength(this.quick_replies, null, max, 'quick_replies', 'Message.validateQuickReply');
-        }
+    validateQuickReplies(quickReplies, max = MAX_QR) {
+        validate.arrayLength(quickReplies, null, max, 'quick_replies', 'Message.validateQuickReplies');
+        return this;
+    }
+
+    setQuickReplies(quickReplies) {
+        this.validateQuickReplies(quickReplies);
+        this.quick_replies = quickReplies;
+        return this;
     }
 
     addQuickReply(quickReply) {
         if (!this.quick_replies) {
             this.quick_replies = [];
         }
-        this.validateQuickReply(10);
+        this.validateQuickReplies(this.quick_replies, MAX_QR - 1);
 
         this.quick_replies.push(quickReply);
         return this;
