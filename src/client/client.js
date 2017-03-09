@@ -119,7 +119,7 @@ export default class Client {
     updateBotSettings(profile) {
         this.validateBotSettings(profile);
         const settings = profile.toObject();
-        if (!validate.isNull(settings.fields) || validate.isEmpty(settings, 'MessengerProfile', 'Client.updateBotSettings')) {
+        if (!validate.isNull(settings.fields) || validate.isEmpty(settings)) {
             throw new Error('Client.updateBotSettings: missing profile properties');
         }
         return this.proxyFetchFacebook(`${facebookMessengerAPIURL}/me/messenger_profile?access_token=${this.pageAccessToken}`, { body: JSON.stringify(settings) })

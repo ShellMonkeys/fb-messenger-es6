@@ -4,6 +4,8 @@ const validate = {};
 
 validate.isNull = arg => arg === undefined || arg === null;
 
+validate.isEmpty = arg => validate.isNull(arg) || Object.keys(arg).length === 0;
+
 const missingParamError = (nameOfArg, ownerOfArg) => new Error(`${ownerOfArg}: missing parameter - ${nameOfArg}`);
 
 const wrongParamError = (nameOfArg, ownerOfArg) => new Error(`${ownerOfArg}: wrong parameter type - ${nameOfArg}`);
@@ -133,12 +135,6 @@ validate.notNull = (arg, nameOfArg, ownerOfArg) => {
     if (validate.isNull(arg)) {
             throw new Error(`${ownerOfArg}: ${nameOfArg} cannot be null or undefined`);
     }
-};
-
-validate.isEmpty = (arg, nameOfArg, ownerOfArg) => {
-    checkParam(nameOfArg, 'name of argument', 'isEmpty');
-    checkParam(ownerOfArg, 'owner of argument', 'isEmpty');
-    return validate.isNull(arg) || Object.keys(arg).length === 0;
 };
 
 export default validate;
