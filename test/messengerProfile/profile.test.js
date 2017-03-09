@@ -26,7 +26,7 @@ test('MessengerProfile - basic structure for add/update', (expect) => {
         persistent_menu: [
             {
                 locale: 'default',
-                composer_input_disabled: true,
+                composer_input_disabled: false,
                 call_to_actions: [
                     {
                         title: 'Help',
@@ -82,7 +82,7 @@ test('MessengerProfile - persistent menu without get started button', (expect) =
             persistent_menu: [
                 {
                     locale: 'default',
-                    composer_input_disabled: true,
+                    composer_input_disabled: false,
                     call_to_actions: [
                         {
                             title: 'Help',

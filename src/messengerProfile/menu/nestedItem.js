@@ -6,7 +6,9 @@ const MAX = 5;
 export default class NestedMenuItem extends Menu {
     constructor(title, menuItems) {
         super(menuItems);
+        this.type = 'nested';
         this.setTitle(title);
+        return this;
     }
 
     setTitle(title) {
@@ -16,7 +18,6 @@ export default class NestedMenuItem extends Menu {
     }
 
     validateActions(menuItems) {
-        this.type = 'nested';
         super.validateActions(menuItems, MAX);
         return this;
     }

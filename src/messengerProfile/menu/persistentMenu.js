@@ -5,18 +5,18 @@ import supportedLocales from '../../util/locales';
 const MAX = 3;
 
 export default class PersistentMenu extends Menu {
-    constructor(menuItems, locale = 'default', disableUserInput = true) {
+    constructor(menuItems, locale = 'default', disableUserInput = false) {
         super(menuItems);
         this.setLocale(locale);
         this.disableUserInput(disableUserInput);
         return this;
     }
 
-    validateActions(menuItems) {
-        if (!validate.isNull(menuItems)) {
-            super.validateActions(menuItems, MAX);
+    setActions(actions) {
+        if (!validate.isNull(actions)) {
+            this.validateActions(actions, MAX);
+            this.call_to_actions = actions;
         }
-        // TODO: You can have at most 3 hierarchical levels of menu_item
         return this;
     }
 
@@ -32,9 +32,6 @@ export default class PersistentMenu extends Menu {
     }
 
     disableUserInput(disable) {
-        if (disable !== true && this.call_to_actions) {
-            throw new Error('PersistentMenu.disableUserInput: Either composer_input_disabled is false or call_to_actions is set');
-        }
         this.composer_input_disabled = disable;
         return this;
     }

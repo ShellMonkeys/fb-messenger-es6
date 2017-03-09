@@ -6,7 +6,7 @@ export default class Menu {
         return this;
     }
 
-    validateActions(menuItems, max = 3) {
+    validateActions(menuItems, max) {
         validate.arrayLength(menuItems, 1, max, 'call_to_actions', `${this.constructor.name}.validateActions`);
         for (const action of menuItems) {
             this.validateAction(action);
@@ -25,7 +25,7 @@ export default class Menu {
         return this;
     }
 
-    addAction(menuItem, max = 3) {
+    addAction(menuItem, max) {
         this.validateActions(this.call_to_actions, max - 1);
         this.call_to_actions.push(menuItem);
         return this;

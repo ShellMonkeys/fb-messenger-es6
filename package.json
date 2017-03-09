@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "build": "babel src -s -D -d dist",
     "pretest": "npm run lint",
-    "test": "nyc babel-tape-runner test/**/*.js | tap-spec",
+    "test": "nyc babel-tape-runner $(find test -name \\*.test.js) | tap-spec",
     "prepublish": "npm run build",
     "coverage": "npm run test && cat coverage/lcov.info | coveralls"
   },
