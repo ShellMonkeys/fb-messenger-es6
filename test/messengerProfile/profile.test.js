@@ -123,3 +123,17 @@ test('MessengerProfile - check locale setting has default set', (expect) => {
     }
     expect.end();
 });
+
+test('MessengerProfile - persistent menu validation', (expect) => {
+    let testProfile;
+    try {
+        testProfile = new MessengerProfile();
+        testProfile.addPersistentMenu(new PersistentMenu().disableUserInput(true));
+        expect.fail('should throw validation error');
+    }
+    catch (e) {
+        expect.same(e.message, 'PersistentMenu.disableUserInput: Either composer_input_disabled is false or call_to_actions must be set', 'should throw validation error');
+        expect.same(testProfile, { state: {} }, 'should not have persistent menu set');
+    }
+    expect.end();
+});
