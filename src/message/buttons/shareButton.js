@@ -1,5 +1,6 @@
 import Button from './button';
 import validate from '../../util/validate';
+import GenericTemplate from '../templates/genericTemplate';
 
 export default class ShareButton extends Button {
     constructor() {
@@ -8,7 +9,8 @@ export default class ShareButton extends Button {
     }
 
     setContents(content) {
-        validate.notNull(content, 'share_contents', 'ShareButton.setContents');
+        validate.oneOf(content.constructor.name, [GenericTemplate.name], 'share_contents', 'ShareButton.setContents');
+        // TODO: A generic template with up to one URL button
         this.share_contents = content;
     }
 }

@@ -16,7 +16,6 @@ export default class CallButton extends Button {
     }
 
     setPhoneNumber(payload) {
-        validate.stringLength(payload, 12, 20, 'payload', 'CallButton.setPhoneNumber');
         if (!new RegExp(/\+[0-9]{11,}$/g).test(payload)) {
             throw new Error('CallButton.setPhoneNumber - Format must have "+" prefix followed by the country code, area code and local number');
         }

@@ -1,4 +1,5 @@
 import validate from '../util/validate';
+import DefaultAction from './defaultAction';
 
 class Element {
     constructor(title) {
@@ -24,6 +25,7 @@ class Element {
     }
 
     setDefaultAction(defaultAction) {
+        validate.oneOf(defaultAction.constructor.name, [DefaultAction.name], 'default_action', `${this.constructor.name}.setDefaultAction`);
         this.default_action = defaultAction;
         return this;
     }
