@@ -21,9 +21,9 @@ export default class ListTemplate extends Template {
     }
 
     validateTopElement(style) {
-        if (validate.isNull(style) || style === 'large') {
+        if (style === 'large') {
             const firstElement = this.attachment.payload.elements[0];
-            if (validate.isNull(firstElement) || validate.isNull(firstElement.image_url)) {
+            if (validate.isNull(firstElement.image_url)) {
                 throw new Error('ListTemplate.setTopElementStyle: image_url is required for the first element if top_element_style is large or not specified');
             }
         }
