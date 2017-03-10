@@ -6,6 +6,7 @@ import { MessengerProfile } from '../index';
 
 
 const facebookMessengerAPIURL = 'https://graph.facebook.com/v2.6';
+const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender'];
 
 export default class Client {
     constructor(pageAccessToken, proxy = null) {
@@ -61,9 +62,12 @@ export default class Client {
             });
     }
 
-    getProfile(userId, fields = 'first_name,last_name,profile_pic,locale,timezone,gender') {
+    getProfile(userId, fields = userProfileFields) {
         validate.notNull(userId, 'USER_ID', 'Client.getProfile');
-
+        validate.isArray(fields, 'fields', 'Client.getProfile');
+        for (const field of fields) {
+            validate.oneOf(field, userProfileFields, 'fields', 'Client.getProfile');
+        }
         return this.proxyFetchFacebook(`${facebookMessengerAPIURL}/${userId}?fields=${fields}&access_token=${this.pageAccessToken}`, { method: 'GET' })
             .then(profile => Promise.resolve(profile))
             .catch((error) => {
