@@ -3,12 +3,23 @@ import GreetingText from './greetingText';
 import TargetAudience from './targetAudience';
 import { PersistentMenu } from './menu';
 
-const validBotProperties = ['persistent_menu', 'get_started', 'greeting', 'whitelisted_domains', 'account_linking_url', 'target_audience'];
 
 export default class MessengerProfile {
     constructor() {
         this.state = {};
         return this;
+    }
+
+    static validProperties() {
+        return [
+            'persistent_menu',
+            'get_started',
+            'greeting',
+            'whitelisted_domains',
+            'account_linking_url',
+            'payment_settings',
+            'target_audience',
+        ];
     }
 
     setGetStartedButton(payload) {
@@ -74,7 +85,7 @@ export default class MessengerProfile {
             validate.isString(field, 'field.type', 'MessengerProfile.setFields');
         }
         for (const field of fields) {
-            validate.oneOf(field, validBotProperties, 'profile property', 'MessengerProfile.setFields');
+            validate.oneOf(field, MessengerProfile.validProperties(), 'profile property', 'MessengerProfile.setFields');
         }
         this.state = {
             fields: fields,
@@ -94,6 +105,12 @@ export default class MessengerProfile {
                 throw new Error(`MessengerProfile.toObject:  You must at least specify a ${name} for the default locale`);
             }
         }
+        return this;
+    }
+
+    setPaymentSettings(settings) {
+        validate.notEmpty(settings, 'payment_settings', 'MessengerProfile.setPaymentSettings');
+        this.state.payment_settings = settings;
         return this;
     }
 

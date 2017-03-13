@@ -6,6 +6,7 @@ import {
     NestedMenuItem,
     GreetingText,
     TargetAudience,
+    PaymentSettings,
 } from './messengerProfile';
 import {
     UrlButton,
@@ -62,6 +63,7 @@ export {
     UrlMenuItem,
     NestedMenuItem,
     GreetingText,
+    PaymentSettings,
     TargetAudience,
     Client,
     ValidateSignature,

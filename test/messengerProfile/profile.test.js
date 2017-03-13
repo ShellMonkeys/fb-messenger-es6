@@ -5,6 +5,7 @@ import {
     TargetAudience,
     PersistentMenu,
     PostbackMenuItem,
+    PaymentSettings,
 } from '../../src/messengerProfile';
 
 test('MessengerProfile - basic structure for add/update', (expect) => {
@@ -36,6 +37,9 @@ test('MessengerProfile - basic structure for add/update', (expect) => {
                 ],
             },
         ],
+        payment_settings: {
+            privacy_url: 'www.facebook.com',
+        },
     };
     try {
         testProfile = new MessengerProfile()
@@ -45,7 +49,8 @@ test('MessengerProfile - basic structure for add/update', (expect) => {
             .addWhitelistedDomain('https://google.com')
             .setAccountLinkingUrl('https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic')
             .setTargetAudience(new TargetAudience('all'))
-            .addPersistentMenu(new PersistentMenu([new PostbackMenuItem('Help', 'help')]));
+            .addPersistentMenu(new PersistentMenu([new PostbackMenuItem('Help', 'help')]))
+            .setPaymentSettings(new PaymentSettings().setPrivacyUrl('www.facebook.com'));
         expect.same(testProfile, { state: expectedStructure }, 'should have bot\'s properties');
         expect.same(testProfile.toObject(), expectedStructure, 'should return structure in state');
     }
