@@ -18,9 +18,15 @@ import {
     ButtonTemplate,
     GenericTemplate,
     ListTemplate,
+    ReceiptTemplate,
+    ReceiptSummary,
 } from './templates';
 import { TextQuickReply, LocationQuickReply } from './quickReply';
-import { GenericElement, ListElement } from './element';
+import {
+    GenericElement,
+    ListElement,
+    ReceiptElement,
+} from './element';
 
 export {
     UrlButton,
@@ -38,8 +44,11 @@ export {
     ButtonTemplate,
     GenericTemplate,
     ListTemplate,
+    ReceiptTemplate,
     TextQuickReply,
     LocationQuickReply,
     GenericElement,
     ListElement,
+    ReceiptElement,
+    ReceiptSummary,
 };

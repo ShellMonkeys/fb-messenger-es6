@@ -1,10 +1,17 @@
 import Message from '../message';
 import validate from '../../util/validate';
 
+const validTemplates = [
+    'button',
+    'generic',
+    'list',
+    'receipt',
+];
+
 export default class Template extends Message {
     constructor(type) {
         super();
-        validate.oneOf(type, ['button', 'generic', 'list'], 'template_type', 'Template.constructor');
+        validate.oneOf(type, validTemplates, 'template_type', 'Template.constructor');
         this.attachment = {
             type: 'template',
             payload: {

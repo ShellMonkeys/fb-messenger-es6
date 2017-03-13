@@ -42,16 +42,25 @@ const hasOwnNestedProperty = (arg, propertyPath) => {
 validate.isArray = (arg, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'isArray');
     checkParam(nameOfArg, 'name of argument', 'isArray');
-    if (!Array.isArray(arg)) {
-        throw wrongParamError(nameOfArg, ownerOfArg);
+    if (Array.isArray(arg)) {
+        return arg;
     }
-    return arg;
+    throw wrongParamError(nameOfArg, ownerOfArg);
 };
 
 validate.isString = (arg, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'isString');
     checkParam(nameOfArg, 'name of argument', 'isString');
     if (typeof arg !== 'string') {
+        throw wrongParamError(nameOfArg, ownerOfArg);
+    }
+    return arg;
+};
+
+validate.isNumber = (arg, nameOfArg, ownerOfArg) => {
+    checkDefaultParams(arg, ownerOfArg, 'isNumber');
+    checkParam(nameOfArg, 'name of argument', 'isNumber');
+    if (typeof arg !== 'number') {
         throw wrongParamError(nameOfArg, ownerOfArg);
     }
     return arg;
