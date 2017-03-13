@@ -2,45 +2,9 @@ import log from './logger';
 
 const validate = {};
 
-// using https://gist.github.com/dperini/729294
-const urlRegEx = new RegExp(
-  '^' +
-    // protocol identifier
-    '(?:(?:https?|ftp)://)' +
-    // user:pass authentication
-    '(?:\\S+(?::\\S*)?@)?' +
-    '(?:' +
-      // IP address exclusion
-      // private & local networks
-      '(?!(?:10|127)(?:\\.\\d{1,3}){3})' +
-      '(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})' +
-      '(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})' +
-      // IP address dotted notation octets
-      // excludes loopback network 0.0.0.0
-      // excludes reserved space >= 224.0.0.0
-      // excludes network & broacast addresses
-      // (first & last IP address of each class)
-      '(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])' +
-      '(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}' +
-      '(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))' +
-    '|' +
-      // host name
-      '(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)' +
-      // domain name
-      '(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*' +
-      // TLD identifier
-      '(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))' +
-      // TLD may end with dot
-      '\\.?' +
-    ')' +
-    // port number
-    '(?::\\d{2,5})?' +
-    // resource path
-    '(?:[/?#]\\S*)?' +
-  '$', 'i',
-);
-
 validate.isNull = arg => arg === undefined || arg === null;
+
+validate.isEmpty = arg => validate.isNull(arg) || Object.keys(arg).length === 0;
 
 const missingParamError = (nameOfArg, ownerOfArg) => new Error(`${ownerOfArg}: missing parameter - ${nameOfArg}`);
 
@@ -60,12 +24,8 @@ const checkDefaultParams = (arg, ownerOfArg, functionName) => {
     checkParam(ownerOfArg, 'owner of argument', functionName);
 };
 
-validate.hasOwnNestedProperty = (arg, propertyPath) => {
+const hasOwnNestedProperty = (arg, propertyPath) => {
     let node = arg;
-    if (validate.isNull(arg)) {
-        return false;
-    }
-
     const properties = propertyPath.split('.');
 
     for (const prop of properties) {
@@ -102,20 +62,20 @@ validate.isStringOrStringArray = (arg, nameOfArg, ownerOfArg) => {
     checkParam(nameOfArg, 'name of argument', 'isStringOrArrayOfStrings');
     if (Array.isArray(arg)) {
         arg.forEach((item) => {
-            validate.isString(ownerOfArg, item, nameOfArg);
+            validate.isString(item, nameOfArg, ownerOfArg);
         });
         return arg;
     }
-    return validate.isString(ownerOfArg, arg, nameOfArg);
+    return validate.isString(arg, nameOfArg, ownerOfArg);
 };
 
 validate.length = (arg, min, max, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'length');
     checkParam(nameOfArg, 'name of argument', 'length');
-    if (!validate.isNull(arg) && arg.length < min) {
+    if (!validate.isNull(min) && arg.length < min) {
         throw new Error(`${ownerOfArg}: ${nameOfArg} requires a minimum of ${min} - ${arg}`);
     }
-    if (!validate.isNull(arg) && arg.length > max) {
+    if (!validate.isNull(max) && arg.length > max) {
         throw new Error(`${ownerOfArg}: ${nameOfArg} requires a maximum  ${max} - ${arg}`);
     }
 };
@@ -130,7 +90,7 @@ validate.stringLength = (str, min, max, nameOfArg, ownerOfArg, throwError = fals
         if (throwError) {
             throw e;
         }
-        log.error(`${ownerOfArg}.${nameOfArg}:  ${str} violated the character limit. ${validate.isNull(min) ? '' : `Minimum of ${min}.`} ${validate.isNull(max) ? '' : `Maximum of ${max}.`}`);
+        log.error(`${ownerOfArg}.${nameOfArg}:  '${str}' violated the character limit. ${validate.isNull(min) ? '' : `Minimum of ${min}.`} ${validate.isNull(max) ? '' : `Maximum of ${max}.`}`);
     }
 };
 
@@ -145,7 +105,7 @@ validate.required = (args, mandatory, ownerOfArg) => {
     checkParam(mandatory, 'array of mandatory nameOfArg', 'required');
     const requiredParams = (typeof mandatory === 'object') ? mandatory : [mandatory];
     for (const nameOfArg of requiredParams) {
-        if (!validate.hasOwnNestedProperty(args, nameOfArg)) {
+        if (!hasOwnNestedProperty(args, nameOfArg)) {
             throw missingParamError(nameOfArg, ownerOfArg);
         }
     }
@@ -163,6 +123,7 @@ validate.oneOf = (arg, validValues, nameOfArg, ownerOfArg) => {
 
 validate.url = (url, ownerOfArg) => {
     checkDefaultParams(url, ownerOfArg, 'url');
+    const urlRegEx = new RegExp('(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})', 'i');
     if (!urlRegEx.test(url)) {
             throw new Error(`${ownerOfArg}: Invalid url - ${url}`);
         }
@@ -174,12 +135,6 @@ validate.notNull = (arg, nameOfArg, ownerOfArg) => {
     if (validate.isNull(arg)) {
             throw new Error(`${ownerOfArg}: ${nameOfArg} cannot be null or undefined`);
     }
-};
-
-validate.isEmpty = (arg, nameOfArg, ownerOfArg) => {
-    checkParam(nameOfArg, 'name of argument', 'isEmpty');
-    checkParam(ownerOfArg, 'owner of argument', 'isEmpty');
-    return validate.isNull(arg) || Object.keys(arg).length === 0;
 };
 
 export default validate;

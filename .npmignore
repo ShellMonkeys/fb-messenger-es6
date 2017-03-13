@@ -7,10 +7,10 @@
 # Dependency directory
 node_modules
 
-# Build directory
+# Source directory
+src
 dist
 
 # Code coverage
 .nyc_output
 coverage
-.coveralls.yml

@@ -29,7 +29,7 @@ export default class UrlButton extends Button {
     }
 
     setFallbackUrl(fallbackUrl) {
-        validate.isString(fallbackUrl, 'fallback_url', `${this.constructor.name}.setFallbackUrl`);
+        validate.url(fallbackUrl, `${this.constructor.name}.setFallbackUrl`);
         this.messenger_extensions = true;
         this.fallback_url = fallbackUrl;
         return this;

@@ -4,10 +4,13 @@
   "description": "Facebook Messenger plaform library",
   "main": "dist",
   "scripts": {
-    "lint": "eslint .",
     "build": "babel src -s -D -d dist",
-    "test": "npm run lint",
-    "prepublish": "npm run build"
+    "clean": "rm -rf ./node_modules/.cache ./dist ./coverage ./.nyc_output",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint .",
+    "prepublish": "npm run build",
+    "pretest": "npm run lint",
+    "test": "nyc babel-tape-runner $(find test -name \\*.test.js) | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -18,7 +21,11 @@
     "messenger"
   ],
   "author": "ShellMonkeys",
-  "contributors": ["Kira", "David", "Tuti"],
+  "contributors": [
+    "Kira",
+    "David",
+    "Tuti"
+  ],
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/ShellMonkeys/fb-messenger-es6/issues"
@@ -35,10 +42,32 @@
     "babel-eslint": "^7.1.1",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
+    "babel-tape-runner": "^2.0.1",
+    "coveralls": "^2.12.0",
     "eslint": "^3.16.1",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.0"
+    "eslint-plugin-react": "^6.10.0",
+    "nyc": "^10.1.2",
+    "sinon": "^1.17.7",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3",
+    "tape-catch": "^1.0.6"
+  },
+  "nyc": {
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "src/util/logger.js",
+      "index.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "all": true,
+    "cache": true
   }
 }

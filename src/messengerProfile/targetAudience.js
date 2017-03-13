@@ -2,23 +2,20 @@ import validate from '../util/validate';
 
 export default class TargetAudience {
     constructor(type) {
-        this.target_audience = {};
         this.setType(type);
+        this.countries = {};
         return this;
     }
 
     setType(type) {
         validate.oneOf(type, ['all', 'custom', 'none'], 'audience_type', 'TargetAudience.setType');
-        this.target_audience.audience_type = type;
+        this.audience_type = type;
         return this;
     }
 
     validateTypeWithCountries(countries) {
-        if (this.target_audience.audience_type !== 'custom') {
+        if (this.audience_type !== 'custom') {
             throw new Error('TargetAudience.validateTypeForCountries: countries needs to be specified only when audience_type is custom');
-        }
-        if (validate.isNull(this.countries)) {
-            this.countries = {};
         }
         validate.isArray(countries, 'countries', 'TargetAudience.validateTypeWithCountries');
         for (const country of countries) {
@@ -33,11 +30,13 @@ export default class TargetAudience {
             this.countries.whitelist = [];
         }
         this.countries.whitelist.push(country);
+        return this;
     }
 
     setWhitelistedCountries(whitelist) {
         this.validateTypeWithCountries(whitelist);
         this.countries.whitelist = whitelist;
+        return this;
     }
 
     addBlacklistedCountry(country) {
@@ -46,10 +45,12 @@ export default class TargetAudience {
             this.countries.blacklist = [];
         }
         this.countries.blacklist.push(country);
+        return this;
     }
 
     setBlacklistedCountries(blacklist) {
         this.validateTypeWithCountries(blacklist);
         this.countries.blacklist = blacklist;
+        return this;
     }
 }

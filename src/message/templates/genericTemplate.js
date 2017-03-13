@@ -2,6 +2,7 @@ import validate from '../../util/validate';
 import Template from './template';
 import { GenericElement } from '../element';
 
+const MAX = 10;
 
 export default class GenericTemplate extends Template {
     constructor(elements, aspectRatio = 'horizontal') {
@@ -17,7 +18,7 @@ export default class GenericTemplate extends Template {
         return this;
     }
 
-    validateElements(elements, max = 10) {
+    validateElements(elements, max = MAX) {
         validate.arrayLength(elements, 1, max, 'elements', 'GenericTemplate.validateElements');
         for (const element of elements) {
             this.validateElement(element);
@@ -38,7 +39,7 @@ export default class GenericTemplate extends Template {
 
     addElement(element) {
         this.validateElement(element);
-        this.validateElements(this.attachment.payload.elements, 9);
+        this.validateElements(this.attachment.payload.elements, MAX - 1);
         this.attachment.payload.elements.push(element);
         return this;
     }
