@@ -9,7 +9,10 @@ import {
 import DefaultAction from './defaultAction';
 import {
     TextMessage,
+    AudioAttachment,
+    FileAttachment,
     ImageAttachment,
+    VideoAttachment,
 } from './contentTypes';
 import {
     ButtonTemplate,
@@ -27,7 +30,10 @@ export {
     LogInButton,
     LogOutButton,
     TextMessage,
+    AudioAttachment,
+    FileAttachment,
     ImageAttachment,
+    VideoAttachment,
     DefaultAction,
     ButtonTemplate,
     GenericTemplate,
