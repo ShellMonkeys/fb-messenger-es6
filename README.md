@@ -34,32 +34,35 @@ const facebook = new Client(<PAGE_ACCESS_TOKEN>, { hostname:<PROXY_HOSTNAME>, po
 <H4>Text Message</H4>
 ```javascript
 // basic message
-facebook.send(new TextMessage('hello, world!'), <recipient_id>);
+facebook.sendMessage(new TextMessage('hello, world!'), <recipient_id>);
 
 // message with quick reply
-facebook.send(new TextMessage('truth or dare?')
+facebook.sendMessage(new TextMessage('truth or dare?')
     .addQuickReply(new TextQuickReply('truth'))
     .addQuickReply(new TextQuickReply('dare')), <recipient_id>);
 ```
 
 <H4>Sender Actions </H4>
 ```javascript
-facebook.senderActions('mark_seen', <recipient_id>);
+facebook.sendAction('mark_seen', <recipient_id>);
 ```
 
-<H4>Others supported</H4>
-- Content Types
-    - Text
+<H3>Supported Messages</H3>
+- Text Messages
+- Rich Media Messages
     - Image
-- Templates
+    - Video
+    - Audio
+    - File
+- Structured Messages
     - Button Template
     - Generic Template
     - List Template
 - Buttons
-    - URL Button
-    - Postback Button
-    - Call Button
-    - Share Button
+    - URL button
+    - Postback button
+    - Call button
+    - Share button
     - Log In and Log Out buttons
 - Quick Replies
 
@@ -67,22 +70,26 @@ More to be added
 
 <H3>User Profile</H3>
 ```javascript
-facebook.getProfile(<USER_ID>);// if no second arg, it defaults to all - ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender']
+// if no second arg, it defaults to all
+// possible fields ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled']
+facebook.getUserProfile(<USER_ID>);
+
+// To specify fields, pass in a second arg
+facebook.getUserProfile(<USER_ID>, ['is_payment_enabled']);
 ```
 <H3>Messenger Profile</H3>
-All except payments settings are supported
 <H4>Setting properties</H4>
 ```javascript
-facebook.updateBotSettings(new MessengerProfile().setGetStartedButton('Get Started')
+facebook.setMessengerProfile(new MessengerProfile().setGetStartedButton('Get Started')
     .addGreetingText(new GreetingText('hello, world')));
 ```
 <H4>Reading properties</H4>
 ```javascript
-facebook.viewBotSettings(new MessengerProfile().setFields['greeting', 'get_started']);
+facebook.getMessengerProfile(new MessengerProfile().setFields(['greeting', 'get_started']));
 ```
 <H4>Deleting properties</H4>
 ```javascript
-facebook.deleteBotSettings(new MessengerProfile().setFields['greeting', 'get_started']);
+facebook.deleteMessengerProfile(new MessengerProfile().setFields(['greeting', 'get_started']));
 ```
 
 <H3>Contributing</H3>
