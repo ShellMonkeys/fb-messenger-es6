@@ -6,7 +6,7 @@ import { MessengerProfile } from '../index';
 
 
 const facebookMessengerAPIURL = 'https://graph.facebook.com/v2.6';
-const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender'];
+const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled'];
 
 export default class Client {
     constructor(pageAccessToken, proxy = null) {
@@ -43,14 +43,14 @@ export default class Client {
             });
     }
 
-    send(message, recipient, notificationType = 'REGULAR') {
+    sendMessage(message, recipientId, notificationType = 'REGULAR') {
         const messageBody = message.getMessage();
-        validate.notNull(recipient, 'recipient.id', 'Client.send');
+        validate.notNull(recipientId, 'recipient.id', 'Client.send');
         validate.notNull(messageBody, 'message', 'Client.send');
         validate.oneOf(notificationType, ['REGULAR', 'SILENT_PUSH', 'NO_PUSH'], 'notification_type', 'Client.send');
 
         const facebookEnvelope = {
-            recipient: { id: recipient },
+            recipient: { id: recipientId },
             message: { ...messageBody },
             notification_type: notificationType,
         };
@@ -62,7 +62,13 @@ export default class Client {
             });
     }
 
-    getProfile(userId, fields = userProfileFields) {
+    // @deprecated since version 0.0.4 use sendMessage instead.
+    // Will be removed in a future version
+    send(message, recipientId, notificationType = 'REGULAR') {
+        return this.sendMessage(message, recipientId, notificationType);
+    }
+
+    getUserProfile(userId, fields = userProfileFields) {
         validate.notNull(userId, 'USER_ID', 'Client.getProfile');
         validate.isArray(fields, 'fields', 'Client.getProfile');
         for (const field of fields) {
@@ -76,13 +82,19 @@ export default class Client {
             });
     }
 
-    senderActions(action, recipient) {
-        validate.notNull(recipient, 'recipient.id', 'Client.senderActions');
+    // @deprecated since version 0.0.4 use getUserProfile instead.
+    // Will be removed in a future version
+    getProfile(userId, fields = userProfileFields) {
+        return this.getUserProfile(userId, fields);
+    }
+
+    sendAction(action, recipientId) {
+        validate.notNull(recipientId, 'recipient.id', 'Client.senderActions');
         validate.notNull(action, 'sender_action', 'Client.senderActions');
         validate.oneOf(action, ['mark_seen', 'typing_on', 'typing_off'], 'sender_action.type', 'Client.senderActions');
 
         const facebookEnvelope = {
-            recipient: { id: recipient },
+            recipient: { id: recipientId },
             sender_action: action,
         };
 
@@ -93,26 +105,41 @@ export default class Client {
             });
     }
 
-    markSeen(recipient) {
-        return this.senderActions('mark_seen', recipient);
+    // @deprecated since version 0.0.4 use sendAction instead.
+    // Will be removed in a future version
+    senderActions(action, recipientId) {
+        return this.sendAction(action, recipientId);
     }
 
-    typingToggle(typing, recipient) {
-        return this.senderActions(typing ? 'typing_on' : 'typing_off', recipient);
+    markSeen(recipientId) {
+        return this.sendAction('mark_seen', recipientId);
     }
 
-    validateBotSettings(settings) {
-        validate.oneOf(settings.constructor.name, [MessengerProfile.name], 'Messenger Profile', 'Client.validateBotSettings');
+    typingToggle(typing, recipientId) {
+        return this.sendAction(typing ? 'typing_on' : 'typing_off', recipientId);
+    }
+
+    validateMessengerProfile(profile, fields = true) {
+        validate.oneOf(profile.constructor.name, [MessengerProfile.name], 'Messenger Profile', 'Client.validateMessengerProfile');
+        this.messenger_profile = profile.toObject();
+        for (const key of Object.keys(this.messenger_profile)) {
+            validate.oneOf(key, fields ? ['fields'] : MessengerProfile.validProperties(), 'messenger_profile', 'Client.validateMessengerProfile');
+        }
         return this;
     }
 
-    viewBotSettings(profile) {
-        this.validateBotSettings(profile);
-        const settings = profile.toObject();
-        if (validate.isNull(settings.fields)) {
-            throw new Error('Client.viewBotSettings: missing profile fields');
-        }
-        return this.proxyFetchFacebook(`${facebookMessengerAPIURL}/me/messenger_profile?fields=${settings.fields}&access_token=${this.pageAccessToken}`, { method: 'GET' })
+    setMessengerProfile(profile) {
+        this.validateMessengerProfile(profile, false);
+        return this.proxyFetchFacebook(`${facebookMessengerAPIURL}/me/messenger_profile?access_token=${this.pageAccessToken}`, { body: JSON.stringify(this.messenger_profile) })
+            .catch((error) => {
+                log.error(error);
+                return Promise.reject(error);
+            });
+    }
+
+    getMessengerProfile(profile) {
+        this.validateMessengerProfile(profile);
+        return this.proxyFetchFacebook(`${facebookMessengerAPIURL}/me/messenger_profile?fields=${this.messenger_profile.fields}&access_token=${this.pageAccessToken}`, { method: 'GET' })
             .then(botSettings => Promise.resolve(botSettings))
             .catch((error) => {
                 log.error(error);
@@ -120,29 +147,30 @@ export default class Client {
             });
     }
 
-    updateBotSettings(profile) {
-        this.validateBotSettings(profile);
-        const settings = profile.toObject();
-        if (!validate.isNull(settings.fields) || validate.isEmpty(settings)) {
-            throw new Error('Client.updateBotSettings: missing profile properties');
-        }
-        return this.proxyFetchFacebook(`${facebookMessengerAPIURL}/me/messenger_profile?access_token=${this.pageAccessToken}`, { body: JSON.stringify(settings) })
+    deleteMessengerProfile(profile) {
+        this.validateMessengerProfile(profile);
+        return this.proxyFetchFacebook(`${facebookMessengerAPIURL}/me/messenger_profile?access_token=${this.pageAccessToken}`, { body: JSON.stringify(this.messenger_profile), method: 'DELETE' })
             .catch((error) => {
                 log.error(error);
                 return Promise.reject(error);
             });
     }
 
+    // @deprecated since version 0.0.4 use getMessengerProfile instead.
+    // Will be removed in a future version
+    viewBotSettings(profile) {
+        return this.getMessengerProfile(profile);
+    }
+
+    // @deprecated since version 0.0.4 use setMessengerProfile instead.
+    // Will be removed in a future version
+    updateBotSettings(profile) {
+        return this.setMessengerProfile(profile);
+    }
+
+    // @deprecated since version 0.0.4 use deleteMessengerProfile instead.
+    // Will be removed in a future version
     deleteBotSettings(profile) {
-        this.validateBotSettings(profile);
-        const settings = profile.toObject();
-        if (validate.isNull(settings.fields)) {
-            throw new Error('Client.deleteBotSettings: missing profile fields');
-        }
-        return this.proxyFetchFacebook(`${facebookMessengerAPIURL}/me/messenger_profile?access_token=${this.pageAccessToken}`, { body: JSON.stringify(settings), method: 'DELETE' })
-            .catch((error) => {
-                log.error(error);
-                return Promise.reject(error);
-            });
+        return this.deleteMessengerProfile(profile);
     }
 }

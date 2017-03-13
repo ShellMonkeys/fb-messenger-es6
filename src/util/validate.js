@@ -146,4 +146,12 @@ validate.notNull = (arg, nameOfArg, ownerOfArg) => {
     }
 };
 
+validate.notEmpty = (arg, nameOfArg, ownerOfArg) => {
+    checkParam(nameOfArg, 'name of argument', 'notEmpty');
+    checkParam(ownerOfArg, 'owner of argument', 'notEmpty');
+    if (validate.isEmpty(arg)) {
+            throw new Error(`${ownerOfArg}: ${nameOfArg} cannot be empty`);
+    }
+};
+
 export default validate;
