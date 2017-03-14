@@ -22,6 +22,10 @@ function ProcessMessage(entry, stickerMap) {
             message.text = entry.message.text;
         }
 
+        if (entry.message.quick_reply) {
+            message.quick_reply = entry.message.quick_reply.payload;
+        }
+
         if (entry.message.attachments) {
             validate.isArray(entry.message.attachments, 'entry.message.attachments', 'ProcessMessage');
             message.attachments = [];
@@ -36,16 +40,13 @@ function ProcessMessage(entry, stickerMap) {
                 }
                 else if (attachment.payload.sticker_id) {
                     flatAttachment.type = 'sticker';
-                    flatAttachment.stickerId = attachment.payload.sticker_id;
-                    if (stickerMap.hasOwnProperty(flatAttachment.stickerId)) {
-                        flatAttachment.stickerType = stickerMap[flatAttachment.stickerId];
+                    flatAttachment.sticker_id = attachment.payload.sticker_id;
+                    if (stickerMap.hasOwnProperty(flatAttachment.sticker_id)) {
+                        flatAttachment.sticker_type = stickerMap[flatAttachment.sticker_id];
                     }
                 }
                 else if (['image', 'audio', 'video', 'file'].includes(attachment.type)) {
                     flatAttachment.url = attachment.payload.url;
-                }
-                else if (attachment.type === 'quick_reply') {
-                    flatAttachment.payload = attachment.payload;
                 }
                 message.attachments.push(flatAttachment);
             }
