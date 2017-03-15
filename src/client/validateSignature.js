@@ -1,14 +1,11 @@
 import crypto from 'crypto';
+import validate from '../util/validate';
 
 
 export default class ValidateSignature {
     constructor(appSecret) {
-        if (!appSecret) {
-            throw new Error('Appsecret has to be provided');
-        }
-
+        validate.notNull(appSecret, 'app secret', 'ValidateSignature.constructor');
         this.appSecret = appSecret;
-
         return this;
     }
 
