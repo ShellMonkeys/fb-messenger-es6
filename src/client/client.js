@@ -2,7 +2,13 @@ import HttpsProxyAgent from 'https-proxy-agent';
 import fetch from 'node-fetch';
 import validate from '../util/validate';
 import log from '../util/logger';
-import { MessengerProfile } from '../index';
+import {
+    MessengerProfile,
+    AudioAttachment,
+    FileAttachment,
+    ImageAttachment,
+    VideoAttachment,
+} from '../index';
 
 
 const facebookMessengerAPIURL = 'https://graph.facebook.com';
@@ -43,6 +49,21 @@ export default class Client {
             }).catch((error) => {
                 log.error(error);
                 throw new Error(error.message);
+            });
+    }
+
+    upload(message) {
+        validate.oneOf(message.constructor.name, [ImageAttachment.name, AudioAttachment.name, VideoAttachment.name, FileAttachment.name], 'attachment.type', 'Client.upload');
+        const messageBody = message.forUpload().getMessage();
+        const facebookEnvelope = {
+            message: { ...messageBody },
+        };
+
+        return this.proxyFetchFacebook(`${this.baseURL}/me/message_attachments?access_token=${this.pageAccessToken}`, { body: JSON.stringify(facebookEnvelope) })
+            .then(resp => resp.attachment_id)
+            .catch((error) => {
+                log.error(error);
+                return Promise.reject(error);
             });
     }
 

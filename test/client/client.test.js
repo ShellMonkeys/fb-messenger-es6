@@ -7,6 +7,7 @@ import {
     TextMessage,
     MessengerProfile,
     GreetingText,
+    ImageAttachment,
 } from '../../src/index';
 
 const tearDown = () => fetch.Promise.restore();
@@ -42,6 +43,13 @@ const testResponse = {
     messengerProfile: {
         json: () => ({
             result: 'success',
+        }),
+    },
+    attachment: {
+        json: () => ({
+            recipient_id: 'USER_ID',
+            message_id: 'mid.1456970487936:c34767dfe57ee6e339',
+            attachment_id: '1745504518999123',
         }),
     },
 };
@@ -155,5 +163,15 @@ test('Client.deleteMessengerProfile', (expect) => {
     testClient.deleteBotSettings(new MessengerProfile()
             .setFields(['greeting', 'get_started']))
         .then(resp => expect.same(resp, testResponse.messengerProfile.json(), 'should return test response'));
+    tearDown();
+});
+
+test('Client.upload', (expect) => {
+    expect.plan(1);
+    sinon.stub(fetch, 'Promise')
+        .returns(Promise.resolve(testResponse.attachment));
+    const testClient = new Client('PAGE_ACCESS_TOKEN');
+    testClient.upload(new ImageAttachment('https://davidapparel.parseapp.com/img/shirt.png'))
+        .then(resp => expect.same(resp, '1745504518999123', 'should return test response'));
     tearDown();
 });

@@ -72,9 +72,17 @@ facebook.typingToggle(true, USER_ID); // true - on; false - off
 facebook.sendAction(SENDER_ACTION, USER_ID);
 ```
 
+#### Attachment Reuse
+```javascript
+const attachmentId = facebook.upload(new ImageAttachment('https://myapp.com/img/image.png'));
+
+// subsequent calls using attachment_id
+facebook.sendMessage(new ImageAttachment(null, attachmentId));
+```
+
 #### Supported Messages
 - Text Messages
-- Rich Media Messages
+- Rich Media Messages (with attachment reuse)
     - Image
     - Video
     - Audio
