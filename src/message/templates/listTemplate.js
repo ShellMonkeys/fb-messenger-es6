@@ -23,7 +23,7 @@ export default class ListTemplate extends Template {
     validateTopElement(style) {
         if (style === 'large') {
             const firstElement = this.attachment.payload.elements[0];
-            if (validate.isNull(firstElement.image_url)) {
+            if (validate.null(firstElement.image_url)) {
                 throw new Error('ListTemplate.setTopElementStyle: image_url is required for the first element if top_element_style is large or not specified');
             }
         }
@@ -40,7 +40,7 @@ export default class ListTemplate extends Template {
 
     validateElement(element) {
         validate.oneOf(element.constructor.name, ListElement.name, 'element.type', 'ListTemplate.validateElements');
-        if ((validate.isNull(element.subtitle)) && validate.isNull(element.image_url) && validate.isNull(element.buttons)) {
+        if ((validate.null(element.subtitle)) && validate.null(element.image_url) && validate.null(element.buttons)) {
             throw new Error('ListTemplate.validateElement: title and at least one other field (image_url, subtitle or buttons) is required with non-empty value');
         }
         return this;

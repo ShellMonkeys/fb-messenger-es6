@@ -226,10 +226,10 @@ test('validate.notNull - error', (expect) => {
     expect.end();
 });
 
-test('validate.isEmpty', (expect) => {
-    expect.true(validate.isEmpty(null), 'should return true for null');
-    expect.true(validate.isEmpty(''), 'should return true for empty string');
-    expect.true(validate.isEmpty([]), 'should return true for empty array');
-    expect.false(validate.isEmpty(' '), 'should return false for space in string');
+test('validate.empty', (expect) => {
+    expect.true(validate.empty(null), 'should return true for null');
+    expect.true(validate.empty(''), 'should return true for empty string');
+    expect.true(validate.empty([]), 'should return true for empty array');
+    expect.false(validate.empty(' '), 'should return false for space in string');
     expect.end();
 });

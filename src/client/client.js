@@ -20,7 +20,7 @@ export default class Client {
     }
 
     setProxy(proxy) {
-        if (validate.isNull(proxy)) {
+        if (validate.null(proxy)) {
             this.proxyAgent = null;
             return this;
         }

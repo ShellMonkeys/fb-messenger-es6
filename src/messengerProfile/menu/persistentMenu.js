@@ -13,7 +13,7 @@ export default class PersistentMenu extends Menu {
     }
 
     setActions(actions) {
-        if (!validate.isNull(actions)) {
+        if (!validate.null(actions)) {
             this.validateActions(actions, MAX);
             this.call_to_actions = actions;
         }

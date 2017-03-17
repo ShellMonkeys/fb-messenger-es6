@@ -105,7 +105,7 @@ export default class ReceiptTemplate extends Template {
 
     addElement(element) {
         this.validateElement(element);
-        if (validate.isNull(this.attachment.payload.elements)) {
+        if (validate.null(this.attachment.payload.elements)) {
             this.attachment.payload.elements = [];
         }
         else {
@@ -136,7 +136,7 @@ export default class ReceiptTemplate extends Template {
     addAdjustment(name, amount) {
         validate.isString(name, 'adjustment.name', 'ReceiptTemplate.addAdjustment');
         validate.isNumber(amount, 'adjustment.amount', 'ReceiptTemplate.addAdjustment');
-        if (validate.isNull(this.attachment.payload.adjustments)) {
+        if (validate.null(this.attachment.payload.adjustments)) {
             this.attachment.payload.adjustments = [];
         }
         this.attachment.payload.adjustments.push({

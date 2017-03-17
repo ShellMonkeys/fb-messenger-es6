@@ -32,7 +32,7 @@ export default class MessengerProfile {
 
     addGreetingText(greetingText) {
         validate.oneOf(greetingText.constructor.name, [GreetingText.name], 'greeting_text.type', 'MessengerProfile.addGreetingText');
-        if (validate.isNull(this.greeting)) {
+        if (validate.null(this.greeting)) {
             this.state.greeting = [];
         }
         this.state.greeting.push(greetingText);
@@ -41,7 +41,7 @@ export default class MessengerProfile {
 
     addWhitelistedDomain(domain) {
         validate.url(domain, 'MessengerProfile.addWhitelistedDomain');
-        if (validate.isNull(this.state.whitelisted_domains)) {
+        if (validate.null(this.state.whitelisted_domains)) {
             this.state.whitelisted_domains = [];
         }
         else {
@@ -59,7 +59,7 @@ export default class MessengerProfile {
 
     setTargetAudience(audience) {
         validate.oneOf(audience.constructor.name, [TargetAudience.name], 'target_audience.type', 'MessengerProfile.setTargetAudience');
-        if (audience.audience_type === 'custom' && validate.isEmpty(audience.countries.whitelist) && validate.isEmpty(audience.countries.blacklist)) {
+        if (audience.audience_type === 'custom' && validate.empty(audience.countries.whitelist) && validate.empty(audience.countries.blacklist)) {
             throw new Error('MessengerProfile.setTargetAudience: If audience_type is custom, blacklist and whitelist can\'t both be null or empty. In addition, only one of them can be non-empty at the same time.');
         }
         this.state.target_audience = audience;
@@ -68,10 +68,10 @@ export default class MessengerProfile {
 
     addPersistentMenu(menu) {
         validate.oneOf(menu.constructor.name, [PersistentMenu.name], 'persistent_menu.type', 'MessengerProfile.addPersistentMenu');
-        if (menu.composer_input_disabled === true && validate.isEmpty(menu.call_to_actions)) {
+        if (menu.composer_input_disabled === true && validate.empty(menu.call_to_actions)) {
             throw new Error('PersistentMenu.disableUserInput: Either composer_input_disabled is false or call_to_actions must be set');
         }
-        if (validate.isNull(this.state.persistent_menu)) {
+        if (validate.null(this.state.persistent_menu)) {
             this.state.persistent_menu = [];
         }
         this.state.persistent_menu.push(menu);
@@ -94,7 +94,7 @@ export default class MessengerProfile {
     }
 
     checkDefaultLocale(arg, name) {
-        if (!validate.isNull(arg)) {
+        if (!validate.null(arg)) {
             let hasDefault = false;
             for (const obj of arg) {
                 if (obj.locale === 'default') {
@@ -117,7 +117,7 @@ export default class MessengerProfile {
     toObject() {
         this.checkDefaultLocale(this.state.persistent_menu, 'persistent_menu');
         this.checkDefaultLocale(this.state.greeting, 'greeting');
-        if (!validate.isNull(this.state.persistent_menu) && validate.isNull(this.state.get_started)) {
+        if (!validate.null(this.state.persistent_menu) && validate.null(this.state.get_started)) {
             throw new Error('MessengerProfile.toObject: You must set a Get Started button if you also wish to use persistent menu');
         }
         return this.state;
