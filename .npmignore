@@ -10,6 +10,7 @@ node_modules
 # Source directory
 src
 dist
+test
 
 # Code coverage
 .nyc_output
