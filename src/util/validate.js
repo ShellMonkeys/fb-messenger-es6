@@ -2,19 +2,19 @@ import log from './logger';
 
 const validate = {};
 
-validate.isNull = arg => arg === undefined || arg === null;
+validate.null = arg => arg === undefined || arg === null;
 
-validate.isEmpty = arg => validate.isNull(arg) || Object.keys(arg).length === 0;
+validate.empty = arg => validate.null(arg) || Object.keys(arg).length === 0;
 
 const missingParamError = (nameOfArg, ownerOfArg) => new Error(`${ownerOfArg}: missing parameter - ${nameOfArg}`);
 
 const wrongParamError = (nameOfArg, ownerOfArg) => new Error(`${ownerOfArg}: wrong parameter type - ${nameOfArg}`);
 
 const checkParam = (arg, nameOfArg, functionName) => {
-    if (validate.isNull(functionName)) {
+    if (validate.null(functionName)) {
         throw new Error('validate: seriously this is the function that\'s calling me!');
     }
-    if (validate.isNull(arg)) {
+    if (validate.null(arg)) {
         throw missingParamError(nameOfArg, `validate.${functionName}`);
     }
 };
@@ -29,7 +29,7 @@ const hasOwnNestedProperty = (arg, propertyPath) => {
     const properties = propertyPath.split('.');
 
     for (const prop of properties) {
-        if (validate.isNull(node) || !node.hasOwnProperty(prop)) {
+        if (validate.null(node) || !node.hasOwnProperty(prop)) {
             return false;
         }
 
@@ -42,16 +42,25 @@ const hasOwnNestedProperty = (arg, propertyPath) => {
 validate.isArray = (arg, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'isArray');
     checkParam(nameOfArg, 'name of argument', 'isArray');
-    if (!Array.isArray(arg)) {
-        throw wrongParamError(nameOfArg, ownerOfArg);
+    if (Array.isArray(arg)) {
+        return arg;
     }
-    return arg;
+    throw wrongParamError(nameOfArg, ownerOfArg);
 };
 
 validate.isString = (arg, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'isString');
     checkParam(nameOfArg, 'name of argument', 'isString');
     if (typeof arg !== 'string') {
+        throw wrongParamError(nameOfArg, ownerOfArg);
+    }
+    return arg;
+};
+
+validate.isNumber = (arg, nameOfArg, ownerOfArg) => {
+    checkDefaultParams(arg, ownerOfArg, 'isNumber');
+    checkParam(nameOfArg, 'name of argument', 'isNumber');
+    if (typeof arg !== 'number') {
         throw wrongParamError(nameOfArg, ownerOfArg);
     }
     return arg;
@@ -72,10 +81,10 @@ validate.isStringOrStringArray = (arg, nameOfArg, ownerOfArg) => {
 validate.length = (arg, min, max, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'length');
     checkParam(nameOfArg, 'name of argument', 'length');
-    if (!validate.isNull(min) && arg.length < min) {
+    if (!validate.null(min) && arg.length < min) {
         throw new Error(`${ownerOfArg}: ${nameOfArg} requires a minimum of ${min} - ${arg}`);
     }
-    if (!validate.isNull(max) && arg.length > max) {
+    if (!validate.null(max) && arg.length > max) {
         throw new Error(`${ownerOfArg}: ${nameOfArg} requires a maximum  ${max} - ${arg}`);
     }
 };
@@ -90,7 +99,7 @@ validate.stringLength = (str, min, max, nameOfArg, ownerOfArg, throwError = fals
         if (throwError) {
             throw e;
         }
-        log.error(`${ownerOfArg}.${nameOfArg}:  '${str}' violated the character limit. ${validate.isNull(min) ? '' : `Minimum of ${min}.`} ${validate.isNull(max) ? '' : `Maximum of ${max}.`}`);
+        log.error(`${ownerOfArg}.${nameOfArg}:  '${str}' violated the character limit. ${validate.null(min) ? '' : `Minimum of ${min}.`} ${validate.null(max) ? '' : `Maximum of ${max}.`}`);
     }
 };
 
@@ -129,11 +138,35 @@ validate.url = (url, ownerOfArg) => {
         }
 };
 
+validate.isNull = (arg, nameOfArg, ownerOfArg) => {
+    checkParam(nameOfArg, 'name of argument', 'isNull');
+    checkParam(ownerOfArg, 'owner of argument', 'isNull');
+    if (!validate.null(arg)) {
+            throw new Error(`${ownerOfArg}: ${nameOfArg} must be null or undefined`);
+    }
+};
+
 validate.notNull = (arg, nameOfArg, ownerOfArg) => {
     checkParam(nameOfArg, 'name of argument', 'notNull');
     checkParam(ownerOfArg, 'owner of argument', 'notNull');
-    if (validate.isNull(arg)) {
+    if (validate.null(arg)) {
             throw new Error(`${ownerOfArg}: ${nameOfArg} cannot be null or undefined`);
+    }
+};
+
+validate.isEmpty = (arg, nameOfArg, ownerOfArg) => {
+    checkParam(nameOfArg, 'name of argument', 'isEmpty');
+    checkParam(ownerOfArg, 'owner of argument', 'isEmpty');
+    if (!validate.empty(arg)) {
+            throw new Error(`${ownerOfArg}: ${nameOfArg} must be empty`);
+    }
+};
+
+validate.notEmpty = (arg, nameOfArg, ownerOfArg) => {
+    checkParam(nameOfArg, 'name of argument', 'notEmpty');
+    checkParam(ownerOfArg, 'owner of argument', 'notEmpty');
+    if (validate.empty(arg)) {
+            throw new Error(`${ownerOfArg}: ${nameOfArg} cannot be empty`);
     }
 };
 

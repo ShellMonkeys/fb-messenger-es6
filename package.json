@@ -1,6 +1,6 @@
 {
   "name": "fb-messenger-es6",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Facebook Messenger plaform library",
   "main": "dist",
   "scripts": {

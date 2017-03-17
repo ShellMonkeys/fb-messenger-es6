@@ -58,3 +58,35 @@ export class ListElement extends Element {
         validate.arrayLength(this.buttons, 1, 1, 'buttons', 'Element.validateButtons');
     }
 }
+
+export class ReceiptElement extends Element {
+    constructor(title, price = 0) {
+        super(title);
+        this.setPrice(price);
+        return this;
+    }
+
+    setQuantity(quantity) {
+        validate.isNumber(quantity, 'quantity', 'ReceiptElement.setQuantity');
+        this.quantity = quantity;
+        return this;
+    }
+
+    setPrice(price) {
+        validate.isNumber(price, 'price', 'ReceiptElement.setPrice');
+        this.price = price;
+        return this;
+    }
+
+    setCurrency(currency) {
+        validate.isString(currency, 'currency', 'ReceiptElement.setCurrency');
+        this.currency = currency;
+        return this;
+    }
+
+    setImageUrl(url) {
+        validate.url(url, 'ReceiptElement.setImageUrl');
+        this.image_url = url;
+        return this;
+    }
+}

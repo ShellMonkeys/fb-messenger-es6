@@ -26,7 +26,7 @@ export default class TargetAudience {
 
     addWhitelistedCountry(country) {
         this.validateTypeWithCountries([country]);
-        if (validate.isNull(this.countries.whitelist)) {
+        if (validate.null(this.countries.whitelist)) {
             this.countries.whitelist = [];
         }
         this.countries.whitelist.push(country);
@@ -41,7 +41,7 @@ export default class TargetAudience {
 
     addBlacklistedCountry(country) {
         this.validateTypeWithCountries([country]);
-        if (validate.isNull(this.countries.blacklist)) {
+        if (validate.null(this.countries.blacklist)) {
             this.countries.blacklist = [];
         }
         this.countries.blacklist.push(country);
