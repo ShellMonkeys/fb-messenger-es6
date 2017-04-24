@@ -23,7 +23,7 @@ export class TextQuickReply extends QuickReply {
     constructor(title, payload) {
         super('text');
         this.setTitle(title);
-        this.setPayload(payload);
+        this.setPayload(payload || title);
         return this;
     }
 
