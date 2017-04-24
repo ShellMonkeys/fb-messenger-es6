@@ -21,3 +21,15 @@ test('TextQuickReply', (expect) => {
     }, 'should have the correct structure');
     expect.end();
 });
+
+test('TextQuickReply - without custom Payload', (expect) => {
+    const testReply = new TextQuickReply('Red')
+        .setImageUrl('http://davidsfantastichats.com/img/red.png');
+    expect.same(testReply, {
+        content_type: 'text',
+        title: 'Red',
+        payload: 'Red',
+        image_url: 'http://davidsfantastichats.com/img/red.png',
+    }, 'should have the correct structure');
+    expect.end();
+});
