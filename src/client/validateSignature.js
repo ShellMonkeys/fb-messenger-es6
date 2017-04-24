@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import validate from '../util/validate';
-
+import log from '../util/logger';
 
 export default class ValidateSignature {
     constructor(appSecret) {
