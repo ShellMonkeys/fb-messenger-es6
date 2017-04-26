@@ -42,5 +42,6 @@ export default class UrlButton extends Button {
 
     disableSharing() {
         this.webview_share_button = 'hide';
+        return this;
     }
 }
