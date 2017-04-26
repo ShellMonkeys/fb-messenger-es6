@@ -35,8 +35,8 @@ export default class UrlButton extends Button {
         return this;
     }
 
-    setMessengerExtensions(value = false) {
-        this.messenger_extensions = value;
+    enableMessengerExtensions() {
+        this.messenger_extensions = true;
         return this;
     }
 

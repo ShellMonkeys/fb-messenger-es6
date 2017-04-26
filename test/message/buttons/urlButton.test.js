@@ -26,35 +26,11 @@ test('UrlButton - with messenger extensions underfined', (expect) => {
     expect.end();
 });
 
-test('UrlButton - with messenger extensions called with null value', (expect) => {
+test('UrlButton - use messenger extensions', (expect) => {
     const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
-    testButton.setMessengerExtensions();
-    expect.same(testButton, {
-        messenger_extensions: false,
-        type: 'web_url',
-        title: 'Test Ext Button',
-        url: 'http://m.me/test_url',
-        webview_height_ratio: 'full' });
-    expect.end();
-});
-
-test('UrlButton - enable messenger extensions', (expect) => {
-    const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
-    testButton.setMessengerExtensions(true);
+    testButton.enableMessengerExtensions();
     expect.same(testButton, {
         messenger_extensions: true,
-        type: 'web_url',
-        title: 'Test Ext Button',
-        url: 'http://m.me/test_url',
-        webview_height_ratio: 'full' });
-    expect.end();
-});
-
-test('UrlButton - disable messenger extensions', (expect) => {
-    const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
-    testButton.setMessengerExtensions(false);
-    expect.same(testButton, {
-        messenger_extensions: false,
         type: 'web_url',
         title: 'Test Ext Button',
         url: 'http://m.me/test_url',
