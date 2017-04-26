@@ -15,3 +15,46 @@ test('UrlButton', (expect) => {
     }, 'should have the correct structure');
     expect.end();
 });
+
+test('UrlButton - with messenger extensions underfined', (expect) => {
+    const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
+    expect.true(testButton, {
+        type: 'web_url',
+        title: 'Test Ext Button',
+        url: 'http://m.me/test_url',
+        webview_height_ratio: 'full' });
+    expect.end();
+});
+
+test('UrlButton - with messenger extensions called with null value', (expect) => {
+    const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
+    expect.true(testButton, {
+        messenger_extensions: false,
+        type: 'web_url',
+        title: 'Test Ext Button',
+        url: 'http://m.me/test_url',
+        webview_height_ratio: 'full' });
+    expect.end();
+});
+
+test('UrlButton - enable messenger extensions', (expect) => {
+    const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
+    expect.true(testButton, {
+        messenger_extensions: true,
+        type: 'web_url',
+        title: 'Test Ext Button',
+        url: 'http://m.me/test_url',
+        webview_height_ratio: 'full' });
+    expect.end();
+});
+
+test('UrlButton - disable messenger extensions', (expect) => {
+    const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
+    expect.true(testButton, {
+        messenger_extensions: false,
+        type: 'web_url',
+        title: 'Test Ext Button',
+        url: 'http://m.me/test_url',
+        webview_height_ratio: 'full' });
+    expect.end();
+});
