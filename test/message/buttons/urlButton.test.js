@@ -15,3 +15,25 @@ test('UrlButton', (expect) => {
     }, 'should have the correct structure');
     expect.end();
 });
+
+test('UrlButton - with messenger extensions underfined', (expect) => {
+    const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
+    expect.same(testButton, {
+        type: 'web_url',
+        title: 'Test Ext Button',
+        url: 'http://m.me/test_url',
+        webview_height_ratio: 'full' });
+    expect.end();
+});
+
+test('UrlButton - use messenger extensions', (expect) => {
+    const testButton = new UrlButton('Test Ext Button', 'http://m.me/test_url');
+    testButton.enableMessengerExtensions();
+    expect.same(testButton, {
+        messenger_extensions: true,
+        type: 'web_url',
+        title: 'Test Ext Button',
+        url: 'http://m.me/test_url',
+        webview_height_ratio: 'full' });
+    expect.end();
+});

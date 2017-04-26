@@ -35,7 +35,13 @@ export default class UrlButton extends Button {
         return this;
     }
 
+    enableMessengerExtensions() {
+        this.messenger_extensions = true;
+        return this;
+    }
+
     disableSharing() {
         this.webview_share_button = 'hide';
+        return this;
     }
 }
