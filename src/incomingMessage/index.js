@@ -72,14 +72,14 @@ function ProcessMessage(entry, stickerMap) {
     }
     else if (entry.referral) {
         message.type = 'referral';
-        message.source = message.referral.source;
-        if (message.referral.ref) {
-            message.ref = message.referral.ref;
+        message.source = entry.referral.source;
+        if (entry.referral.ref) {
+            message.ref = entry.referral.ref;
         }
-        if (message.referral.ad_id) {
-            message.ad_id = message.referral.ad_id;
+        if (entry.referral.ad_id) {
+            message.ad_id = entry.referral.ad_id;
         }
-        message.referral_type = message.referral.type;
+        message.referral_type = entry.referral.type;
     }
 
     return message;
