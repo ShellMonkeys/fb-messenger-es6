@@ -70,6 +70,17 @@ function ProcessMessage(entry, stickerMap) {
         message.status = entry.account_linking.status;
         message.authorization_code = entry.account_linking.authorization_code;
     }
+    else if (entry.referral) {
+        message.type = 'referral';
+        message.source = entry.referral.source;
+        if (entry.referral.ref) {
+            message.ref = entry.referral.ref;
+        }
+        if (entry.referral.ad_id) {
+            message.ad_id = entry.referral.ad_id;
+        }
+        message.referral_type = entry.referral.type;
+    }
 
     return message;
 }

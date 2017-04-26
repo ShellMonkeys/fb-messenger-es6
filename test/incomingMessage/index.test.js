@@ -399,3 +399,167 @@ test('ProcessIncoming - Account Linking Event', (expect) => {
     }, 'should return corect normalized entries');
     expect.end();
 });
+
+test('ProcessIncoming - Referral m.me', (expect) => {
+    expect.same(ProcessIncoming({
+        object: 'page',
+        entry: [
+            {
+                id: 'PAGE_ID',
+                time: 1458692752478,
+                messaging: [
+                    {
+                        sender: {
+                            id: 'USER_ID',
+                        },
+                        timestamp: 1458692752478,
+                        recipient: {
+                            id: 'PAGE_ID',
+                        },
+                        referral: {
+                            ref: 'ref-data',
+                            source: 'SHORTLINK',
+                            type: 'OPEN_THREAD',
+                        },
+                    },
+                ],
+            },
+        ],
+    }), {
+        PAGE_ID: [
+            {
+                sender: 'USER_ID',
+                recipient: 'PAGE_ID',
+                timestamp: 1458692752478,
+                type: 'referral',
+                ref: 'ref-data',
+                referral_type: 'OPEN_THREAD',
+                source: 'SHORTLINK',
+            },
+        ],
+    }, 'should return correct normalized entries');
+    expect.end();
+});
+
+test('ProcessIncoming - Referral - ad', (expect) => {
+    expect.same(ProcessIncoming({
+        object: 'page',
+        entry: [
+            {
+                id: 'PAGE_ID',
+                time: 1458692752478,
+                messaging: [
+                    {
+                        sender: {
+                            id: 'USER_ID',
+                        },
+                        timestamp: 1458692752478,
+                        recipient: {
+                            id: 'PAGE_ID',
+                        },
+                        referral: {
+                            ref: 'ref-data',
+                            source: 'ADS',
+                            ad_id: 'ad-id',
+                            type: 'OPEN_THREAD',
+                        },
+                    },
+                ],
+            },
+        ],
+    }), {
+        PAGE_ID: [
+            {
+                sender: 'USER_ID',
+                recipient: 'PAGE_ID',
+                timestamp: 1458692752478,
+                type: 'referral',
+                ref: 'ref-data',
+                ad_id: 'ad-id',
+                referral_type: 'OPEN_THREAD',
+                source: 'ADS',
+            },
+        ],
+    }, 'should return correct normalized entries');
+    expect.end();
+});
+
+test('ProcessIncoming - Referral - parametric code', (expect) => {
+    expect.same(ProcessIncoming({
+        object: 'page',
+        entry: [
+            {
+                id: 'PAGE_ID',
+                time: 1458692752478,
+                messaging: [
+                    {
+                        sender: {
+                            id: 'USER_ID',
+                        },
+                        timestamp: 1458692752478,
+                        recipient: {
+                            id: 'PAGE_ID',
+                        },
+                        referral: {
+                            ref: 'ref-data',
+                            source: 'MESSENGER_CODE',
+                            type: 'OPEN_THREAD',
+                        },
+                    },
+                ],
+            },
+        ],
+    }), {
+        PAGE_ID: [
+            {
+                sender: 'USER_ID',
+                recipient: 'PAGE_ID',
+                timestamp: 1458692752478,
+                type: 'referral',
+                ref: 'ref-data',
+                referral_type: 'OPEN_THREAD',
+                source: 'MESSENGER_CODE',
+            },
+        ],
+    }, 'should return correct normalized entries');
+    expect.end();
+});
+
+test('ProcessIncoming - Referral - discover tab', (expect) => {
+    expect.same(ProcessIncoming({
+        object: 'page',
+        entry: [
+            {
+                id: 'PAGE_ID',
+                time: 1458692752478,
+                messaging: [
+                    {
+                        sender: {
+                            id: 'USER_ID',
+                        },
+                        timestamp: 1458692752478,
+                        recipient: {
+                            id: 'PAGE_ID',
+                        },
+                        referral: {
+                            source: 'DISCOVER_TAB',
+                            type: 'OPEN_THREAD',
+                        },
+                    },
+                ],
+            },
+        ],
+    }), {
+        PAGE_ID: [
+            {
+                sender: 'USER_ID',
+                recipient: 'PAGE_ID',
+                timestamp: 1458692752478,
+                type: 'referral',
+                referral_type: 'OPEN_THREAD',
+                source: 'DISCOVER_TAB',
+            },
+        ],
+    }, 'should return correct normalized entries');
+    expect.end();
+});
