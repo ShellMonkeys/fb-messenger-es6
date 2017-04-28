@@ -71,15 +71,6 @@ test('Client.constructor - with proxy', (expect) => {
     expect.end();
 });
 
-test('Client.sendMessage', (expect) => {
-    expect.plan(1);
-    sinon.stub(fetch, 'Promise')
-        .returns(Promise.resolve(testResponse.generic));
-    const testClient = new Client('PAGE_ACCESS_TOKEN');
-    testClient.send(new TextMessage('hello, world!'), 'USER_ID')
-        .then(resp => expect.same(resp, testResponse.generic.json(), 'should return test response'));
-    tearDown();
-});
 
 test('Client.sendMessage - error', (expect) => {
     expect.plan(1);
@@ -97,7 +88,7 @@ test('Client.getUserProfile', (expect) => {
     sinon.stub(fetch, 'Promise')
         .returns(Promise.resolve(testResponse.userProfile));
     const testClient = new Client('PAGE_ACCESS_TOKEN');
-    testClient.getProfile('USER_ID')
+    testClient.getUserProfile('USER_ID')
         .then(resp => expect.same(resp, testResponse.userProfile.json(), 'should return test response'));
     tearDown();
 });
@@ -137,7 +128,7 @@ test('Client.getMessengerProfile', (expect) => {
     sinon.stub(fetch, 'Promise')
         .returns(Promise.resolve(testResponse.messengerProfile));
     const testClient = new Client('PAGE_ACCESS_TOKEN');
-    testClient.viewBotSettings(new MessengerProfile()
+    testClient.getMessengerProfile(new MessengerProfile()
             .setFields(['greeting', 'get_started']))
         .then(resp => expect.same(resp, testResponse.messengerProfile.json(), 'should return test response'));
     tearDown();
@@ -148,7 +139,7 @@ test('Client.setMessengerProfile', (expect) => {
     sinon.stub(fetch, 'Promise')
         .returns(Promise.resolve(testResponse.messengerProfile));
     const testClient = new Client('PAGE_ACCESS_TOKEN');
-    testClient.updateBotSettings(new MessengerProfile()
+    testClient.setMessengerProfile(new MessengerProfile()
             .setGetStartedButton('Get Started')
             .addGreetingText(new GreetingText('hello, world')))
         .then(resp => expect.same(resp, testResponse.messengerProfile.json(), 'should return test response'));
@@ -160,7 +151,7 @@ test('Client.deleteMessengerProfile', (expect) => {
     sinon.stub(fetch, 'Promise')
         .returns(Promise.resolve(testResponse.messengerProfile));
     const testClient = new Client('PAGE_ACCESS_TOKEN');
-    testClient.deleteBotSettings(new MessengerProfile()
+    testClient.deleteMessengerProfile(new MessengerProfile()
             .setFields(['greeting', 'get_started']))
         .then(resp => expect.same(resp, testResponse.messengerProfile.json(), 'should return test response'));
     tearDown();
