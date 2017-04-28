@@ -1,6 +1,6 @@
 # fb-messenger-es6
 ___
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 [![Build Status](https://img.shields.io/travis/ShellMonkeys/fb-messenger-es6.svg)](https://travis-ci.org/ShellMonkeys/fb-messenger-es6)
 [![Coverage Status](https://img.shields.io/coveralls/ShellMonkeys/fb-messenger-es6.svg)](https://coveralls.io/github/ShellMonkeys/fb-messenger-es6)
 
@@ -55,7 +55,7 @@ facebook.sendMessage(new TextMessage('hello, world!'), USER_ID);
 
 // message with quick reply
 facebook.sendMessage(new TextMessage('truth or dare?')
-    .addQuickReply(new TextQuickReply('truth'))
+    .addQuickReply(new TextQuickReply('truth', 'GAME_TRUTH_PAYLOAD')) //alternative way for setting text quick reply
     .addQuickReply(new TextQuickReply('dare')), USER_ID);
 ```
 
@@ -68,7 +68,6 @@ facebook.markSeen(USER_ID);
 facebook.typingToggle(true, USER_ID); // true - on; false - off
 
 // Alternatively
-// Note: facebook.senderActions has been deprecated
 facebook.sendAction(SENDER_ACTION, USER_ID);
 ```
 
@@ -229,11 +228,23 @@ The callback default field `type` is `account_linking`
     authorization_code: 'PASS_THROUGH_AUTHORIZATION_CODE',
 }
 ```
+##### Referral
+The callback default field `type` is `referral`
+```javascript
+{
+    ...CALLBACK_DEFAULT_FIELDS,
+    source: 'SHORTLINK',
+    ref: 'REF_DATA_SPECIFIED',
+    source: 'SOURCE', // e.g 'SHORTLINK', 'ADS', 'MESSENGER_CODE' or 'DISCOVER_TAB'
+    ad_id: 'AD_ID', // if source === 'ADS'
+    type: 'OPEN_THREAD',
+}
+```
 
 ## User Profile
 ```javascript
 // if no second arg, it defaults to all
-// possible fields ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled']
+// possible fields ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled', 'last_ad_referral']
 facebook.getUserProfile(<USER_ID>);
 
 // To specify fields, pass in a second arg
@@ -245,18 +256,15 @@ import { MessengerProfile } from 'fb-messenger-es6';
 ```
 ### Setting properties
 ```javascript
-// NOTE: facebook.updateBotSettings has been deprecated
 facebook.setMessengerProfile(new MessengerProfile().setGetStartedButton('Get Started')
     .addGreetingText(new GreetingText('hello, world')));
 ```
 ### Reading properties
 ```javascript
-// NOTE: facebook.viewBotSettings has been deprecated
 facebook.getMessengerProfile(new MessengerProfile().setFields(['greeting', 'get_started']));
 ```
 ### Deleting properties
 ```javascript
-// NOTE: facebook.deleteBotSettings has been deprecated
 facebook.deleteMessengerProfile(new MessengerProfile().setFields(['greeting', 'get_started']));
 ```
 
