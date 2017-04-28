@@ -19,8 +19,6 @@ export default class ValidateSignature {
         if (!expected || expected !== computed) {
             throw new Error('Invalid signature');
         }
-        else {
-            log.debug('Valid signature!');
-        }
+        log.debug('Valid signature!');
     }
 }
