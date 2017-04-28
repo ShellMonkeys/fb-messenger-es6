@@ -188,7 +188,7 @@ test('validate.oneOf - error', (expect) => {
         expect.fail('should throw error for invalid input');
     }
     catch (e) {
-        expect.equals(e.message, 'validate.oneOf.test: Value for oneOfTest must be one of messenger,whatsapp,instagram', 'should throw error for invalid input');
+        expect.equals(e.message, 'validate.oneOf.test: oneOfTest must be one of messenger,whatsapp,instagram', 'should throw error for invalid input');
     }
     expect.end();
 });

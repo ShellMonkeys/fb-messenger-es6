@@ -135,7 +135,7 @@ validate.oneOf = (arg, validValues, nameOfArg, ownerOfArg) => {
     checkParam(nameOfArg, 'name of argument', 'oneOf');
     checkParam(validValues, 'valid values', 'oneOf');
     if (!validValues.includes(arg)) {
-        throw new Error(`${ownerOfArg}: Value for ${nameOfArg} must be one of ${validValues}`);
+        throw new Error(`${ownerOfArg}: ${nameOfArg} must be one of ${validValues}`);
     }
 };
 
