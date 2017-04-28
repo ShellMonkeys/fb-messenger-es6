@@ -1,7 +1,11 @@
 import validate from '../util/validate';
 import GreetingText from './greetingText';
 import TargetAudience from './targetAudience';
-import { PersistentMenu } from './menu';
+import ChatExtensionHomeUrl from './chatExtensionHome';
+import {
+    PersistentMenu,
+}
+from './menu';
 
 
 export default class MessengerProfile {
@@ -19,6 +23,7 @@ export default class MessengerProfile {
             'account_linking_url',
             'payment_settings',
             'target_audience',
+            'home_url',
         ];
     }
 
@@ -111,6 +116,12 @@ export default class MessengerProfile {
     setPaymentSettings(settings) {
         validate.notEmpty(settings, 'payment_settings', 'MessengerProfile.setPaymentSettings');
         this.state.payment_settings = settings;
+        return this;
+    }
+
+    setChatExtensionHomeUrl(chatExtensionHomeUrl) {
+        validate.oneOf(chatExtensionHomeUrl.constructor.name, [ChatExtensionHomeUrl.name], 'home_url', 'MessengerProfile.setChatExtensionHomeUrl');
+        this.state.home_url = chatExtensionHomeUrl;
         return this;
     }
 

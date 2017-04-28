@@ -7,6 +7,7 @@ import {
     GreetingText,
     TargetAudience,
     PaymentSettings,
+    ChatExtensionHomeUrl,
 } from './messengerProfile';
 import {
     UrlButton,
@@ -68,4 +69,5 @@ export {
     Client,
     ValidateSignature,
     ProcessIncoming,
+    ChatExtensionHomeUrl,
 };

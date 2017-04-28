@@ -66,6 +66,15 @@ validate.isNumber = (arg, nameOfArg, ownerOfArg) => {
     return arg;
 };
 
+validate.isBoolean = (arg, nameOfArg, ownerOfArg) => {
+    checkDefaultParams(arg, ownerOfArg, 'isBoolean');
+    checkParam(nameOfArg, 'name of argument', 'isBoolean');
+    if (typeof arg !== 'boolean') {
+        throw wrongParamError(nameOfArg, ownerOfArg);
+    }
+    return arg;
+};
+
 validate.isStringOrStringArray = (arg, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'isStringOrArrayOfStrings');
     checkParam(nameOfArg, 'name of argument', 'isStringOrArrayOfStrings');

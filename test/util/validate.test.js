@@ -58,6 +58,28 @@ test('validate.isString - no error', (expect) => {
     expect.end();
 });
 
+test('validate.isBoolean - error', (expect) => {
+    try {
+        validate.isBoolean(['this', 'is', 'an', 'array'], 'boolTest', 'validate.isBoolean.test');
+        expect.fail('should throw error for boolean input');
+    }
+    catch (e) {
+        expect.equals(e.message, 'validate.isBoolean.test: wrong parameter type - boolTest', 'should throw error for invalid string input');
+    }
+    expect.end();
+});
+
+test('validate.isBoolean - no error', (expect) => {
+    try {
+        validate.isBoolean(true, 'boolTest', 'validate.isBoolean.test');
+        expect.pass('should not throw error for boolean input');
+    }
+    catch (e) {
+        expect.fail('should not throw error for valid boolean input');
+    }
+    expect.end();
+});
+
 test('validate.isStringOrStringArray - no error', (expect) => {
     try {
         validate.isStringOrStringArray(['this', 'is', 'an', 'array'], 'strArrTest', 'validate.isStringOrStringArray.test');

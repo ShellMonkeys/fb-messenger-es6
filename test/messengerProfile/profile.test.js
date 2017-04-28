@@ -6,6 +6,7 @@ import {
     PersistentMenu,
     PostbackMenuItem,
     PaymentSettings,
+    ChatExtensionHomeUrl,
 } from '../../src/messengerProfile';
 
 test('MessengerProfile - basic structure for add/update', (expect) => {
@@ -40,6 +41,11 @@ test('MessengerProfile - basic structure for add/update', (expect) => {
         payment_settings: {
             privacy_url: 'www.facebook.com',
         },
+        home_url: {
+            url: 'http://davidshats.com/send-a-hat',
+            webview_height_ratio: 'tall',
+            in_test: true,
+        },
     };
     try {
         testProfile = new MessengerProfile()
@@ -50,7 +56,8 @@ test('MessengerProfile - basic structure for add/update', (expect) => {
             .setAccountLinkingUrl('https://www.example.com/oauth?response_type=code&client_id=1234567890&scope=basic')
             .setTargetAudience(new TargetAudience('all'))
             .addPersistentMenu(new PersistentMenu([new PostbackMenuItem('Help', 'help')]))
-            .setPaymentSettings(new PaymentSettings().setPrivacyUrl('www.facebook.com'));
+            .setPaymentSettings(new PaymentSettings().setPrivacyUrl('www.facebook.com'))
+            .setChatExtensionHomeUrl(new ChatExtensionHomeUrl('http://davidshats.com/send-a-hat', true));
         expect.same(testProfile, { state: expectedStructure }, 'should have bot\'s properties');
         expect.same(testProfile.toObject(), expectedStructure, 'should return structure in state');
     }
