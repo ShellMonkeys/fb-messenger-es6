@@ -37,7 +37,7 @@ const facebook = new Client(<PAGE_ACCESS_TOKEN>, { hostname:<PROXY_HOSTNAME>, po
 ```
 Specify the Graph API version
 
-Accepted versions: `v2.6`, `v2.7`, `v2.8`
+Accepted versions: `v2.6`, `v2.7`, `v2.8`, `v2.9`
 ```javascript
 const facebook = new Client(<PAGE_ACCESS_TOKEN>, null, API_VERSION);
 ```

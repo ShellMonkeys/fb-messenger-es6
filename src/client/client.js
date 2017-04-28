@@ -13,10 +13,10 @@ import {
 
 const facebookMessengerAPIURL = 'https://graph.facebook.com';
 const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled', 'last_ad_referral'];
-const validPlatformAPIVersions = ['v2.6', 'v2.7', 'v2.8'];
+const validPlatformAPIVersions = ['v2.6', 'v2.7', 'v2.8', 'v2.9'];
 
 export default class Client {
-    constructor(pageAccessToken, proxy = null, platformAPIVersion = 'v2.8') {
+    constructor(pageAccessToken, proxy = null, platformAPIVersion = 'v2.9') {
         validate.oneOf(platformAPIVersion, validPlatformAPIVersions, 'API Version', 'Client.constructor');
         validate.notNull(pageAccessToken, 'PAGE_ACCESS_TOKEN', 'Client.constructor');
         this.baseURL = `${facebookMessengerAPIURL}/${platformAPIVersion}`;
