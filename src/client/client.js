@@ -12,11 +12,11 @@ import {
 
 
 const facebookMessengerAPIURL = 'https://graph.facebook.com';
-const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled'];
-const validPlatformAPIVersions = ['v2.6', 'v2.7', 'v2.8'];
+const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled', 'last_ad_referral'];
+const validPlatformAPIVersions = ['v2.6', 'v2.7', 'v2.8', 'v2.9'];
 
 export default class Client {
-    constructor(pageAccessToken, proxy = null, platformAPIVersion = 'v2.8') {
+    constructor(pageAccessToken, proxy = null, platformAPIVersion = 'v2.9') {
         validate.oneOf(platformAPIVersion, validPlatformAPIVersions, 'API Version', 'Client.constructor');
         validate.notNull(pageAccessToken, 'PAGE_ACCESS_TOKEN', 'Client.constructor');
         this.baseURL = `${facebookMessengerAPIURL}/${platformAPIVersion}`;
@@ -86,12 +86,6 @@ export default class Client {
             });
     }
 
-    // @deprecated since version 0.0.4 use sendMessage instead.
-    // Will be removed in a future version
-    send(message, recipientId, notificationType = 'REGULAR') {
-        return this.sendMessage(message, recipientId, notificationType);
-    }
-
     getUserProfile(userId, fields = userProfileFields) {
         validate.notNull(userId, 'USER_ID', 'Client.getProfile');
         validate.isArray(fields, 'fields', 'Client.getProfile');
@@ -104,12 +98,6 @@ export default class Client {
                 log.error(error);
                 return Promise.reject(error);
             });
-    }
-
-    // @deprecated since version 0.0.4 use getUserProfile instead.
-    // Will be removed in a future version
-    getProfile(userId, fields = userProfileFields) {
-        return this.getUserProfile(userId, fields);
     }
 
     sendAction(action, recipientId) {
@@ -127,12 +115,6 @@ export default class Client {
                 log.error(error);
                 return Promise.reject(error);
             });
-    }
-
-    // @deprecated since version 0.0.4 use sendAction instead.
-    // Will be removed in a future version
-    senderActions(action, recipientId) {
-        return this.sendAction(action, recipientId);
     }
 
     markSeen(recipientId) {
@@ -178,23 +160,5 @@ export default class Client {
                 log.error(error);
                 return Promise.reject(error);
             });
-    }
-
-    // @deprecated since version 0.0.4 use getMessengerProfile instead.
-    // Will be removed in a future version
-    viewBotSettings(profile) {
-        return this.getMessengerProfile(profile);
-    }
-
-    // @deprecated since version 0.0.4 use setMessengerProfile instead.
-    // Will be removed in a future version
-    updateBotSettings(profile) {
-        return this.setMessengerProfile(profile);
-    }
-
-    // @deprecated since version 0.0.4 use deleteMessengerProfile instead.
-    // Will be removed in a future version
-    deleteBotSettings(profile) {
-        return this.deleteMessengerProfile(profile);
     }
 }

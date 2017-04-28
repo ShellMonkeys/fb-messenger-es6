@@ -3,6 +3,7 @@ import { PersistentMenu, PostbackMenuItem, UrlMenuItem, NestedMenuItem } from '.
 import GreetingText from './greetingText';
 import TargetAudience from './targetAudience';
 import PaymentSettings from './paymentSettings';
+import ChatExtensionHomeUrl from './chatExtensionHome';
 
 export {
     MessengerProfile,
@@ -13,4 +14,5 @@ export {
     GreetingText,
     TargetAudience,
     PaymentSettings,
+    ChatExtensionHomeUrl,
 };

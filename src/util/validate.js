@@ -66,6 +66,15 @@ validate.isNumber = (arg, nameOfArg, ownerOfArg) => {
     return arg;
 };
 
+validate.isBoolean = (arg, nameOfArg, ownerOfArg) => {
+    checkDefaultParams(arg, ownerOfArg, 'isBoolean');
+    checkParam(nameOfArg, 'name of argument', 'isBoolean');
+    if (typeof arg !== 'boolean') {
+        throw wrongParamError(nameOfArg, ownerOfArg);
+    }
+    return arg;
+};
+
 validate.isStringOrStringArray = (arg, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'isStringOrArrayOfStrings');
     checkParam(nameOfArg, 'name of argument', 'isStringOrArrayOfStrings');
@@ -126,7 +135,7 @@ validate.oneOf = (arg, validValues, nameOfArg, ownerOfArg) => {
     checkParam(nameOfArg, 'name of argument', 'oneOf');
     checkParam(validValues, 'valid values', 'oneOf');
     if (!validValues.includes(arg)) {
-        throw new Error(`${ownerOfArg}: Value for ${nameOfArg} must be one of ${validValues}`);
+        throw new Error(`${ownerOfArg}: ${nameOfArg} must be one of ${validValues}`);
     }
 };
 
