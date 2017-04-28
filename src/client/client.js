@@ -12,7 +12,7 @@ import {
 
 
 const facebookMessengerAPIURL = 'https://graph.facebook.com';
-const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled'];
+const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled', 'last_ad_referral'];
 const validPlatformAPIVersions = ['v2.6', 'v2.7', 'v2.8'];
 
 export default class Client {
