@@ -355,6 +355,57 @@ test('ProcessIncoming - Postback', (expect) => {
                 timestamp: 1458692752478,
                 type: 'postback',
                 payload: 'USER_DEFINED_PAYLOAD',
+                ref: 'USER_DEFINED_REFERRAL_PARAM',
+                source: 'SHORTLINK',
+                referral_type: 'OPEN_THREAD',
+            },
+        ],
+    }, 'should return corect normalized entries');
+    expect.end();
+});
+
+
+test('ProcessIncoming - Postback w/ ad referral', (expect) => {
+    expect.same(ProcessIncoming({
+        object: 'page',
+        entry: [
+            {
+                id: 'PAGE_ID',
+                time: 1458692752478,
+                messaging: [
+                    {
+                        sender: {
+                            id: 'USER_ID',
+                        },
+                        timestamp: 1458692752478,
+                        recipient: {
+                            id: 'PAGE_ID',
+                        },
+                        postback: {
+                            payload: 'USER_DEFINED_PAYLOAD',
+                            referral: {
+                                ref: 'USER_DEFINED_REFERRAL_PARAM',
+                                source: 'ADS',
+                                type: 'OPEN_THREAD',
+                                ad_id: 'AD_ID',
+                            },
+                        },
+                    },
+                ],
+            },
+        ],
+    }), {
+        PAGE_ID: [
+            {
+                sender: 'USER_ID',
+                recipient: 'PAGE_ID',
+                timestamp: 1458692752478,
+                type: 'postback',
+                payload: 'USER_DEFINED_PAYLOAD',
+                ref: 'USER_DEFINED_REFERRAL_PARAM',
+                source: 'ADS',
+                referral_type: 'OPEN_THREAD',
+                ad_id: 'AD_ID',
             },
         ],
     }, 'should return corect normalized entries');

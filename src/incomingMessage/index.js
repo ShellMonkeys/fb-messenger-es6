@@ -64,6 +64,16 @@ function ProcessMessage(entry, stickerMap) {
     else if (entry.postback) {
         message.type = 'postback';
         message.payload = entry.postback.payload;
+        if (entry.postback.referral) {
+            message.source = entry.postback.referral.source;
+            message.referral_type = entry.postback.referral.type;
+            if (entry.postback.referral.ref) {
+                message.ref = entry.postback.referral.ref;
+            }
+            if (entry.postback.referral.ad_id) {
+                message.ad_id = entry.postback.referral.ad_id;
+            }
+        }
     }
     else if (entry.account_linking) {
         message.type = 'account_linking';
