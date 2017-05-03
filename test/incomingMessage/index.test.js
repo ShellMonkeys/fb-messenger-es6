@@ -319,7 +319,7 @@ test('ProcessIncoming - Message Echo', (expect) => {
     expect.end();
 });
 
-test.only('ProcessIncoming - Postback', (expect) => {
+test('ProcessIncoming - Postback', (expect) => {
     expect.same(ProcessIncoming({
         object: 'page',
         entry: [
