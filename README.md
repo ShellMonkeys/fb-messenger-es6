@@ -213,10 +213,16 @@ There are no callback specific fields
 
 ##### Postback
 The callback default field `type` is `postback`
+**NOTE**: As this could contain referral attribute, implementation could prioritize that over the `payload`
 ```javascript
 {
     ...CALLBACK_DEFAULT_FIELDS,
     payload: 'USER_DEFINED_PAYLOAD',
+    source: 'SHORTLINK',
+    ref: 'REF_DATA_SPECIFIED',
+    source: 'SOURCE', // e.g 'SHORTLINK', 'ADS', 'MESSENGER_CODE' or 'DISCOVER_TAB'
+    ad_id: 'AD_ID', // if source === 'ADS'
+    type: 'OPEN_THREAD',
 }
 ```
 ##### Account Linking Event
