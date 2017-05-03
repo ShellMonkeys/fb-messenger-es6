@@ -319,7 +319,7 @@ test('ProcessIncoming - Message Echo', (expect) => {
     expect.end();
 });
 
-test('ProcessIncoming - Postback', (expect) => {
+test.only('ProcessIncoming - Postback', (expect) => {
     expect.same(ProcessIncoming({
         object: 'page',
         entry: [
@@ -355,6 +355,9 @@ test('ProcessIncoming - Postback', (expect) => {
                 timestamp: 1458692752478,
                 type: 'postback',
                 payload: 'USER_DEFINED_PAYLOAD',
+                ref: 'USER_DEFINED_REFERRAL_PARAM',
+                source: 'SHORTLINK',
+                referral_type: 'OPEN_THREAD',
             },
         ],
     }, 'should return corect normalized entries');
