@@ -23,7 +23,7 @@ export default class UrlButton extends Button {
     }
 
     setWebviewHeightRatio(height) {
-        validate.oneOf(height, ['comapact', 'tall', 'full'], 'webview_height_ratio', `${this.constructor.name}.setWebviewHeightRatio`);
+        validate.oneOf(height, ['compact', 'tall', 'full'], 'webview_height_ratio', `${this.constructor.name}.setWebviewHeightRatio`);
         this.webview_height_ratio = height;
         return this;
     }
