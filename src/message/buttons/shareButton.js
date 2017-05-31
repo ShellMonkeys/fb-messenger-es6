@@ -12,5 +12,6 @@ export default class ShareButton extends Button {
         validate.oneOf(content.constructor.name, [GenericTemplate.name], 'share_contents', 'ShareButton.setContents');
         // TODO: A generic template with up to one URL button
         this.share_contents = content;
+        return this;
     }
 }
