@@ -71,6 +71,15 @@ test('Client.constructor - with proxy', (expect) => {
     expect.end();
 });
 
+test('Client.sendMessage - with tag', (expect) => {
+    expect.plan(1);
+    sinon.stub(fetch, 'Promise')
+        .returns(Promise.resolve(testResponse.generic));
+    const testClient = new Client('PAGE_ACCESS_TOKEN');
+    testClient.sendMessage(new TextMessage('hello, world!').withTag('ISSUE_RESOLUTION'), 'USER_ID')
+        .then(resp => expect.same(resp, testResponse.generic.json(), 'should return test response'));
+    tearDown();
+});
 
 test('Client.sendMessage - error', (expect) => {
     expect.plan(1);
@@ -90,6 +99,16 @@ test('Client.getUserProfile', (expect) => {
     const testClient = new Client('PAGE_ACCESS_TOKEN');
     testClient.getUserProfile('USER_ID')
         .then(resp => expect.same(resp, testResponse.userProfile.json(), 'should return test response'));
+    tearDown();
+});
+
+test('Client.getUserProfile - error', (expect) => {
+    expect.plan(1);
+    sinon.stub(fetch, 'Promise').rejects(testResponse.errorCode);
+    const testClient = new Client('PAGE_ACCESS_TOKEN');
+    testClient.getUserProfile('USER_ID')
+        .catch(e => expect.same(e, new Error(testResponse.errorCode.json()
+            .error.name), 'should return test response'));
     tearDown();
 });
 
