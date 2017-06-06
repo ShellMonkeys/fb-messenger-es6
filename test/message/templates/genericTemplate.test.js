@@ -15,33 +15,35 @@ test('GenericTemplate', (expect) => {
             .addButton(new UrlButton('Take Quiz', 'http://m.me/petershats?ref=invited_by_24601')),
     ]).addElement(new GenericElement('Additional'));
     expect.same(testTemplate, {
-        attachment: {
-            type: 'template',
-            payload: {
-                template_type: 'generic',
-                elements: [
-                    {
-                        title: 'I took Peter\'s \'Which Hat Are You?\' Quiz',
-                        subtitle: 'My result: Fez',
-                        image_url: 'https//bot.peters-hats.com/img/hats/fez.jpg',
-                        default_action: {
-                            type: 'web_url',
-                            url: 'http://m.me/petershats?ref=invited_by_24601',
-                        },
-                        buttons: [
-                            {
+        state: {
+            attachment: {
+                type: 'template',
+                payload: {
+                    template_type: 'generic',
+                    elements: [
+                        {
+                            title: 'I took Peter\'s \'Which Hat Are You?\' Quiz',
+                            subtitle: 'My result: Fez',
+                            image_url: 'https//bot.peters-hats.com/img/hats/fez.jpg',
+                            default_action: {
                                 type: 'web_url',
                                 url: 'http://m.me/petershats?ref=invited_by_24601',
-                                title: 'Take Quiz',
-                                webview_height_ratio: 'full',
                             },
-                        ],
-                    },
-                    {
-                        title: 'Additional',
-                    },
-                ],
-                image_aspect_ratio: 'horizontal',
+                            buttons: [
+                                {
+                                    type: 'web_url',
+                                    url: 'http://m.me/petershats?ref=invited_by_24601',
+                                    title: 'Take Quiz',
+                                    webview_height_ratio: 'full',
+                                },
+                            ],
+                        },
+                        {
+                            title: 'Additional',
+                        },
+                    ],
+                    image_aspect_ratio: 'horizontal',
+                },
             },
         },
     }, 'should have the correct structure');

@@ -16,13 +16,13 @@ export default class ListTemplate extends Template {
     setTopElementStyle(style) {
         validate.oneOf(style, ['large', 'compact'], 'top_element_style', 'ListTemplate.setTopElementStyle');
         this.validateTopElement(style);
-        this.attachment.payload.top_element_style = style;
+        this.state.attachment.payload.top_element_style = style;
         return this;
     }
 
     validateTopElement(style) {
         if (style === 'large') {
-            const firstElement = this.attachment.payload.elements[0];
+            const firstElement = this.state.attachment.payload.elements[0];
             if (validate.null(firstElement.image_url)) {
                 throw new Error('ListTemplate.setTopElementStyle: image_url is required for the first element if top_element_style is large or not specified');
             }
@@ -48,14 +48,14 @@ export default class ListTemplate extends Template {
 
     setElements(elements) {
         this.validateElements(elements);
-        this.attachment.payload.elements = elements;
+        this.state.attachment.payload.elements = elements;
         return this;
     }
 
     addElement(element) {
         this.validateElement(element);
-        this.validateElements(this.attachment.payload.elements, 3);
-        this.attachment.payload.elements.push(element);
+        this.validateElements(this.state.attachment.payload.elements, 3);
+        this.state.attachment.payload.elements.push(element);
         return this;
     }
 
@@ -70,7 +70,7 @@ export default class ListTemplate extends Template {
 
     setButtons(buttons) {
         this.validateButtons(buttons);
-        this.attachment.payload.buttons = buttons;
+        this.state.attachment.payload.buttons = buttons;
         return this;
     }
 }

@@ -14,7 +14,7 @@ test('Message - with no text or attachment', (expect) => {
     }
     catch (e) {
         expect.same(e.message, 'Message.getMessage: You cannot send a text and an attachment together, please read the Send API Reference for more details');
-        expect.same(testMsg, {}, 'should not have a message object');
+        expect.same(testMsg, { state: {} }, 'should not have a message object');
     }
     expect.end();
 });
@@ -23,12 +23,14 @@ test('Message - with quick reply', (expect) => {
     const testMsg = new TextMessage('Please share your location:');
     testMsg.setQuickReplies([new LocationQuickReply()]);
     expect.same(testMsg, {
-        text: 'Please share your location:',
-        quick_replies: [
-            {
-                content_type: 'location',
-            },
-        ],
+        state: {
+            text: 'Please share your location:',
+            quick_replies: [
+                {
+                    content_type: 'location',
+                },
+            ],
+        },
     }, 'should have the correct structure with quick reply');
     expect.end();
 });

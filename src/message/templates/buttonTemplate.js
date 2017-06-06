@@ -27,20 +27,20 @@ export default class ButtonTemplate extends Template {
 
     addButton(button) {
         this.validateButton(button);
-        this.validateButtons(this.attachment.payload.buttons, 2);
-        this.attachment.payload.buttons.push(button);
+        this.validateButtons(this.state.attachment.payload.buttons, 2);
+        this.state.attachment.payload.buttons.push(button);
         return this;
     }
 
     setButtons(buttons) {
         this.validateButtons(buttons);
-        this.attachment.payload.buttons = buttons;
+        this.state.attachment.payload.buttons = buttons;
         return this;
     }
 
     setText(text) {
         validate.stringLength(text, null, 640, 'text', 'ButtonTemplate.setText');
-        this.attachment.payload.text = text;
+        this.state.attachment.payload.text = text;
         return this;
     }
 }

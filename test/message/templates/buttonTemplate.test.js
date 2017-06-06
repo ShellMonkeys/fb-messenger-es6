@@ -10,24 +10,26 @@ test('ButtonTemplate', (expect) => {
         new UrlButton('Show Website', 'https://petersapparel.parseapp.com'),
     ]).addButton(new PostbackButton('Start Chatting', 'CHAT_PAYLOAD'));
     expect.same(testTemplate, {
-        attachment: {
-            type: 'template',
-            payload: {
-                template_type: 'button',
-                text: 'What do you want to do next?',
-                buttons: [
-                    {
-                        type: 'web_url',
-                        url: 'https://petersapparel.parseapp.com',
-                        title: 'Show Website',
-                        webview_height_ratio: 'full',
-                    },
-                    {
-                        type: 'postback',
-                        title: 'Start Chatting',
-                        payload: 'CHAT_PAYLOAD',
-                    },
-                ],
+        state: {
+            attachment: {
+                type: 'template',
+                payload: {
+                    template_type: 'button',
+                    text: 'What do you want to do next?',
+                    buttons: [
+                        {
+                            type: 'web_url',
+                            url: 'https://petersapparel.parseapp.com',
+                            title: 'Show Website',
+                            webview_height_ratio: 'full',
+                        },
+                        {
+                            type: 'postback',
+                            title: 'Start Chatting',
+                            payload: 'CHAT_PAYLOAD',
+                        },
+                    ],
+                },
             },
         },
     }, 'should have the correct structure');

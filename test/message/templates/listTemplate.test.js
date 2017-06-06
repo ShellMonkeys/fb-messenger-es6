@@ -16,33 +16,35 @@ test('ListTemplate', (expect) => {
             .setSubTitle('Record traffic is expected'))
         .setButtons([new PostbackButton('View More', 'READ_MORE_PAYLOAD')]);
     expect.same(testTemplate, {
-        attachment: {
-            type: 'template',
-            payload: {
-                template_type: 'list',
-                top_element_style: 'large',
-                elements: [
-                    {
-                        title: 'Today\'s Top News',
-                        subtitle: 'President signs new bill',
-                        image_url: 'https://davidsnewsapp.bot/todays-top-news',
-                    },
-                    {
-                        title: 'Forest Fires Spread',
-                        subtitle: 'The dry season has results',
-                    },
-                    {
-                        title: 'Traffic Expected for Upcoming Holiday',
-                        subtitle: 'Record traffic is expected',
-                    },
-                ],
-                buttons: [
-                    {
-                        title: 'View More',
-                        type: 'postback',
-                        payload: 'READ_MORE_PAYLOAD',
-                    },
-                ],
+        state: {
+            attachment: {
+                type: 'template',
+                payload: {
+                    template_type: 'list',
+                    top_element_style: 'large',
+                    elements: [
+                        {
+                            title: 'Today\'s Top News',
+                            subtitle: 'President signs new bill',
+                            image_url: 'https://davidsnewsapp.bot/todays-top-news',
+                        },
+                        {
+                            title: 'Forest Fires Spread',
+                            subtitle: 'The dry season has results',
+                        },
+                        {
+                            title: 'Traffic Expected for Upcoming Holiday',
+                            subtitle: 'Record traffic is expected',
+                        },
+                    ],
+                    buttons: [
+                        {
+                            title: 'View More',
+                            type: 'postback',
+                            payload: 'READ_MORE_PAYLOAD',
+                        },
+                    ],
+                },
             },
         },
     }, 'should have the correct structure');

@@ -10,7 +10,7 @@ export default class TextMessage extends Message {
 
     setText(text) {
         validate.stringLength(text, null, 640, 'text', 'TextMessage.setText');
-        this.text = text;
+        this.state.text = text;
         return this;
     }
 }
