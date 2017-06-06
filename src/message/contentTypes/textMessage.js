@@ -13,4 +13,10 @@ export default class TextMessage extends Message {
         this.state.text = text;
         return this;
     }
+
+    withTag(tag) {
+        validate.oneOf(tag, ['ISSUE_RESOLUTION'], 'tag', 'TextMessage.withTag');
+        this.tag = tag;
+        return this;
+    }
 }

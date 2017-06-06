@@ -10,3 +10,14 @@ test('TextMessage.constructor', (expect) => {
     }, 'should have the correct structure');
     expect.end();
 });
+
+test('TextMessage.withTag', (expect) => {
+    const testTextMsg = new TextMessage('hello, world!').withTag('ISSUE_RESOLUTION');
+    expect.same(testTextMsg, {
+        state: {
+            text: 'hello, world!',
+        },
+        tag: 'ISSUE_RESOLUTION',
+    }, 'should have the correct structure');
+    expect.end();
+});

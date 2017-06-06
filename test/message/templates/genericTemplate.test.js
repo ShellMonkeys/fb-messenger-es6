@@ -13,7 +13,7 @@ test('GenericTemplate', (expect) => {
             .setImageUrl('https//bot.peters-hats.com/img/hats/fez.jpg')
             .setDefaultAction(new DefaultAction('http://m.me/petershats?ref=invited_by_24601'))
             .addButton(new UrlButton('Take Quiz', 'http://m.me/petershats?ref=invited_by_24601')),
-    ]).addElement(new GenericElement('Additional'));
+    ]).addElement(new GenericElement('Additional')).withTag('SHIPPING_UPDATE');
     expect.same(testTemplate, {
         state: {
             attachment: {
@@ -46,6 +46,7 @@ test('GenericTemplate', (expect) => {
                 },
             },
         },
+        tag: 'SHIPPING_UPDATE',
     }, 'should have the correct structure');
     expect.end();
 });

@@ -43,4 +43,10 @@ export default class GenericTemplate extends Template {
         this.state.attachment.payload.elements.push(element);
         return this;
     }
+
+    withTag(tag) {
+        validate.oneOf(tag, ['SHIPPING_UPDATE', 'RESERVATION_UPDATE', 'ISSUE_RESOLUTION'], 'tag', 'GenericTemplate.withTag');
+        this.tag = tag;
+        return this;
+    }
 }
