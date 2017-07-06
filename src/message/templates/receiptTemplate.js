@@ -50,43 +50,43 @@ export default class ReceiptTemplate extends Template {
 
     setRecipientName(name) {
         validate.isString(name, 'recipient_name', 'ReceiptTemplate.setRecipientName');
-        this.attachment.payload.recipient_name = name;
+        this.state.attachment.payload.recipient_name = name;
         return this;
     }
 
     setMerchantName(name) {
         validate.isString(name, 'merchant_name', 'ReceiptTemplate.setMerchantName');
-        this.attachment.payload.merchant_name = name;
+        this.state.attachment.payload.merchant_name = name;
         return this;
     }
 
     setOrderNumber(number) {
         validate.isString(number, 'order_number', 'ReceiptTemplate.setOrderNumber');
-        this.attachment.payload.order_number = number;
+        this.state.attachment.payload.order_number = number;
         return this;
     }
 
     setCurrency(currency) {
         validate.isString(currency, 'currency', 'ReceiptTemplate.setCurrency');
-        this.attachment.payload.currency = currency;
+        this.state.attachment.payload.currency = currency;
         return this;
     }
 
     setPaymentMethod(method) {
         validate.isString(method, 'payment_method', 'ReceiptTemplate.setPaymentMethod');
-        this.attachment.payload.payment_method = method;
+        this.state.attachment.payload.payment_method = method;
         return this;
     }
 
     setTimestamp(timestamp) {
         validate.isString(timestamp, 'timestamp', 'ReceiptTemplate.setTimestamp');
-        this.attachment.payload.timestamp = timestamp;
+        this.state.attachment.payload.timestamp = timestamp;
         return this;
     }
 
     setOrderUrl(url) {
         validate.url(url, 'ReceiptElement.setOrderUrl');
-        this.attachment.payload.order_url = url;
+        this.state.attachment.payload.order_url = url;
         return this;
     }
 
@@ -105,18 +105,18 @@ export default class ReceiptTemplate extends Template {
 
     addElement(element) {
         this.validateElement(element);
-        if (validate.null(this.attachment.payload.elements)) {
-            this.attachment.payload.elements = [];
+        if (validate.null(this.state.attachment.payload.elements)) {
+            this.state.attachment.payload.elements = [];
         }
         else {
-            this.validateElements(this.attachment.payload.elements, MAX - 1);
+            this.validateElements(this.state.attachment.payload.elements, MAX - 1);
         }
-        this.attachment.payload.elements.push(element);
+        this.state.attachment.payload.elements.push(element);
         return this;
     }
 
     setAddress(country, state, postalCode, city, street1, street2 = '') {
-        this.attachment.payload.address = {
+        this.state.attachment.payload.address = {
             street_1: street1,
             street_2: street2,
             city: city,
@@ -124,22 +124,22 @@ export default class ReceiptTemplate extends Template {
             state: state,
             country: country,
         };
-        validate.required(this.attachment.payload.address, ['street_1', 'city', 'postal_code', 'state', 'country'], 'ReceiptTemplate.setAddress');
+        validate.required(this.state.attachment.payload.address, ['street_1', 'city', 'postal_code', 'state', 'country'], 'ReceiptTemplate.setAddress');
         return this;
     }
 
     setSummary(summary) {
         validate.oneOf(summary.constructor.name, Summary.name, 'summary', 'ReceiptTemplate.setSummary');
-        this.attachment.payload.summary = summary;
+        this.state.attachment.payload.summary = summary;
     }
 
     addAdjustment(name, amount) {
         validate.isString(name, 'adjustment.name', 'ReceiptTemplate.addAdjustment');
         validate.isNumber(amount, 'adjustment.amount', 'ReceiptTemplate.addAdjustment');
-        if (validate.null(this.attachment.payload.adjustments)) {
-            this.attachment.payload.adjustments = [];
+        if (validate.null(this.state.attachment.payload.adjustments)) {
+            this.state.attachment.payload.adjustments = [];
         }
-        this.attachment.payload.adjustments.push({
+        this.state.attachment.payload.adjustments.push({
             name: name,
             amount: amount,
         });

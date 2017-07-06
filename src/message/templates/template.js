@@ -12,7 +12,7 @@ export default class Template extends Message {
     constructor(type) {
         super();
         validate.oneOf(type, validTemplates, 'template_type', 'Template.constructor');
-        this.attachment = {
+        this.state.attachment = {
             type: 'template',
             payload: {
                 template_type: type,

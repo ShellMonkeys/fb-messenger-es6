@@ -79,6 +79,10 @@ export default class Client {
             notification_type: notificationType,
         };
 
+        if (message.tag) {
+            facebookEnvelope.tag = message.tag;
+        }
+
         return this.proxyFetchFacebook(`${this.baseURL}/me/messages?access_token=${this.pageAccessToken}`, { body: JSON.stringify(facebookEnvelope) })
             .catch((error) => {
                 log.error(error);

@@ -5,7 +5,7 @@ import validate from '../../util/validate';
 class Attachment extends Message {
     constructor(type, url, attachmentId = null) {
         super();
-        this.attachment = {
+        this.state.attachment = {
             type: type,
             payload: {},
         };
@@ -19,25 +19,25 @@ class Attachment extends Message {
 
     setUrl(url) {
         if (!validate.null(url)) {
-            validate.isNull(this.attachment.payload.attachment_id, 'attachment_id', `${this.constructor.name}.setUrl`);
+            validate.isNull(this.state.attachment.payload.attachment_id, 'attachment_id', `${this.constructor.name}.setUrl`);
             validate.url(url, `${this.constructor.name}.setUrl`);
-            this.attachment.payload.url = url;
+            this.state.attachment.payload.url = url;
         }
         return this;
     }
 
     setAttachmentId(id) {
         if (!validate.null(id)) {
-            validate.isNull(this.attachment.payload.url, 'url', `${this.constructor.name}.setAttachmentId`);
+            validate.isNull(this.state.attachment.payload.url, 'url', `${this.constructor.name}.setAttachmentId`);
             validate.isString(id, 'attachment_id', `${this.constructor.name}.setAttachmentId`);
-            this.attachment.payload.attachment_id = id;
+            this.state.attachment.payload.attachment_id = id;
         }
         return this;
     }
 
     forUpload() {
-        validate.required(this, 'attachment.payload.url', `${this.constructor.name}.forUpload`);
-        this.attachment.payload.is_reusable = true;
+        validate.required(this.state, 'attachment.payload.url', `${this.constructor.name}.forUpload`);
+        this.state.attachment.payload.is_reusable = true;
         return this;
     }
 }

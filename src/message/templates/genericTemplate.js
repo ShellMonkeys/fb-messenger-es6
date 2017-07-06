@@ -14,7 +14,7 @@ export default class GenericTemplate extends Template {
 
     setImageAspectRatio(aspectRatio) {
         validate.oneOf(aspectRatio, ['horizontal', 'square'], 'image_aspect_ratio', 'GenericTemplate.constructor');
-        this.attachment.payload.image_aspect_ratio = aspectRatio;
+        this.state.attachment.payload.image_aspect_ratio = aspectRatio;
         return this;
     }
 
@@ -33,14 +33,20 @@ export default class GenericTemplate extends Template {
 
     setElements(elements) {
         this.validateElements(elements);
-        this.attachment.payload.elements = elements;
+        this.state.attachment.payload.elements = elements;
         return this;
     }
 
     addElement(element) {
         this.validateElement(element);
-        this.validateElements(this.attachment.payload.elements, MAX - 1);
-        this.attachment.payload.elements.push(element);
+        this.validateElements(this.state.attachment.payload.elements, MAX - 1);
+        this.state.attachment.payload.elements.push(element);
+        return this;
+    }
+
+    withTag(tag) {
+        validate.oneOf(tag, ['SHIPPING_UPDATE', 'RESERVATION_UPDATE', 'ISSUE_RESOLUTION'], 'tag', 'GenericTemplate.withTag');
+        this.tag = tag;
         return this;
     }
 }
