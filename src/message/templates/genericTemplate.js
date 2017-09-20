@@ -9,7 +9,6 @@ export default class GenericTemplate extends Template {
         super('generic');
         this.setElements(elements);
         this.setImageAspectRatio(aspectRatio);
-        this.setSharable(false);
         return this;
     }
 
@@ -52,7 +51,7 @@ export default class GenericTemplate extends Template {
     }
 
     setSharable(sharable) {
-        this.sharable = sharable;
+        this.state.attachment.payload.sharable = sharable;
         return this;
     }
 }
