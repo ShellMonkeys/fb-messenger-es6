@@ -9,6 +9,7 @@ export default class GenericTemplate extends Template {
         super('generic');
         this.setElements(elements);
         this.setImageAspectRatio(aspectRatio);
+        this.setSharable(false);
         return this;
     }
 
@@ -47,6 +48,11 @@ export default class GenericTemplate extends Template {
     withTag(tag) {
         validate.oneOf(tag, ['SHIPPING_UPDATE', 'RESERVATION_UPDATE', 'ISSUE_RESOLUTION'], 'tag', 'GenericTemplate.withTag');
         this.tag = tag;
+        return this;
+    }
+
+    setSharable(sharable) {
+        this.sharable = sharable;
         return this;
     }
 }

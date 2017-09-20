@@ -20,6 +20,7 @@ test('GenericTemplate', (expect) => {
                 type: 'template',
                 payload: {
                     template_type: 'generic',
+                    sharable: false,
                     elements: [
                         {
                             title: 'I took Peter\'s \'Which Hat Are You?\' Quiz',
