@@ -163,4 +163,20 @@ export default class Client {
                 return Promise.reject(error);
             });
     }
+
+    getUserPageScopedId(accountLinkingToken) {
+        return this.proxyFetchFacebook(`${this.baseURL}/me?access_token=${this.pageAccessToken}&fields=recipient&account_linking_token=${accountLinkingToken}`, { method: 'GET' })
+            .catch((error) => {
+                log.error(error);
+                return Promise.reject(error);
+            });
+    }
+
+    unlinkAccount(userPageScopedId) {
+        return this.proxyFetchFacebook(`${this.baseURL}/me/unlink_accounts?access_token=${this.pageAccessToken}`, { body: JSON.stringify({ psid: userPageScopedId }) })
+            .catch((error) => {
+                log.error(error);
+                return Promise.reject(error);
+            });
+    }
 }

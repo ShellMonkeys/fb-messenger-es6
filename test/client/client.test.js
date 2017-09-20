@@ -52,6 +52,17 @@ const testResponse = {
             attachment_id: '1745504518999123',
         }),
     },
+    psid: {
+        json: () => ({
+            id: 'PAGE_ID',
+            recipient: 'PSID',
+        }),
+    },
+    accountUnlinking: {
+        json: () => ({
+            result: 'unlink account success',
+        }),
+    },
 };
 
 test('Client.constructor - no proxy', (expect) => {
@@ -184,4 +195,28 @@ test('Client.upload', (expect) => {
     testClient.upload(new ImageAttachment('https://davidapparel.parseapp.com/img/shirt.png'))
         .then(resp => expect.same(resp, '1745504518999123', 'should return test response'));
     tearDown();
+});
+
+test('Client.getUserPageScopedId', (expect) => {
+    expect.plan(1);
+    sinon.stub(fetch, 'Promise')
+        .returns(Promise.resolve(testResponse.psid));
+    const testClient = new Client('PAGE_ACCESS_TOKEN');
+    testClient.getUserPageScopedId('ACCOUNT_LINKING_TOKEN')
+        .then((resp) => {
+            expect.same(resp, testResponse.psid.json(), 'should return test response');
+            tearDown();
+        });
+});
+
+test('Client.accountUnlinking', (expect) => {
+    expect.plan(1);
+    sinon.stub(fetch, 'Promise')
+        .returns(Promise.resolve(testResponse.accountUnlinking));
+    const testClient = new Client('PAGE_ACCESS_TOKEN');
+    testClient.unlinkAccount('PSID')
+        .then((resp) => {
+            expect.same(resp, testResponse.accountUnlinking.json(), 'should return test response');
+            tearDown();
+        });
 });
