@@ -49,4 +49,9 @@ export default class GenericTemplate extends Template {
         this.tag = tag;
         return this;
     }
+
+    setSharable(sharable) {
+        this.state.attachment.payload.sharable = sharable;
+        return this;
+    }
 }

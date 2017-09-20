@@ -13,11 +13,9 @@ import {
 
 const facebookMessengerAPIURL = 'https://graph.facebook.com';
 const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled', 'last_ad_referral'];
-const validPlatformAPIVersions = ['v2.6', 'v2.7', 'v2.8', 'v2.9'];
 
 export default class Client {
-    constructor(pageAccessToken, proxy = null, platformAPIVersion = 'v2.9') {
-        validate.oneOf(platformAPIVersion, validPlatformAPIVersions, 'API Version', 'Client.constructor');
+    constructor(pageAccessToken, proxy = null, platformAPIVersion = 'v2.10') {
         validate.notNull(pageAccessToken, 'PAGE_ACCESS_TOKEN', 'Client.constructor');
         this.baseURL = `${facebookMessengerAPIURL}/${platformAPIVersion}`;
         this.pageAccessToken = pageAccessToken;
@@ -160,6 +158,22 @@ export default class Client {
     deleteMessengerProfile(profile) {
         this.validateMessengerProfile(profile);
         return this.proxyFetchFacebook(`${this.baseURL}/me/messenger_profile?access_token=${this.pageAccessToken}`, { body: JSON.stringify(this.messenger_profile), method: 'DELETE' })
+            .catch((error) => {
+                log.error(error);
+                return Promise.reject(error);
+            });
+    }
+
+    getUserPageScopedId(accountLinkingToken) {
+        return this.proxyFetchFacebook(`${this.baseURL}/me?access_token=${this.pageAccessToken}&fields=recipient&account_linking_token=${accountLinkingToken}`, { method: 'GET' })
+            .catch((error) => {
+                log.error(error);
+                return Promise.reject(error);
+            });
+    }
+
+    unlinkAccount(userPageScopedId) {
+        return this.proxyFetchFacebook(`${this.baseURL}/me/unlink_accounts?access_token=${this.pageAccessToken}`, { body: JSON.stringify({ psid: userPageScopedId }) })
             .catch((error) => {
                 log.error(error);
                 return Promise.reject(error);

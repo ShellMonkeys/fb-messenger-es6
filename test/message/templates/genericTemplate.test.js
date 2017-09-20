@@ -13,13 +13,15 @@ test('GenericTemplate', (expect) => {
             .setImageUrl('https//bot.peters-hats.com/img/hats/fez.jpg')
             .setDefaultAction(new DefaultAction('http://m.me/petershats?ref=invited_by_24601'))
             .addButton(new UrlButton('Take Quiz', 'http://m.me/petershats?ref=invited_by_24601')),
-    ]).addElement(new GenericElement('Additional')).withTag('SHIPPING_UPDATE');
+    ]).addElement(new GenericElement('Additional')).withTag('SHIPPING_UPDATE')
+    .setSharable(false);
     expect.same(testTemplate, {
         state: {
             attachment: {
                 type: 'template',
                 payload: {
                     template_type: 'generic',
+                    sharable: false,
                     elements: [
                         {
                             title: 'I took Peter\'s \'Which Hat Are You?\' Quiz',
