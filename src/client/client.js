@@ -66,7 +66,7 @@ export default class Client {
     }
 
     sendMessage(message, recipientId, notificationType = 'REGULAR') {
-        const messageBody = message.getMessage();
+        const messageBody = message.hasOwnProperty('getMessage') ? message.getMessage() : message;
         validate.notNull(recipientId, 'recipient.id', 'Client.send');
         validate.notNull(messageBody, 'message', 'Client.send');
         validate.oneOf(notificationType, ['REGULAR', 'SILENT_PUSH', 'NO_PUSH'], 'notification_type', 'Client.send');
