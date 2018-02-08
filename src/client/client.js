@@ -179,4 +179,34 @@ export default class Client {
                 return Promise.reject(error);
             });
     }
+
+    passControl(appId, recipientId, metadata = '') {
+        return this.proxyFetchFacebook(`${this.baseURL}/me/pass_thread_control?access_token=${this.pageAccessToken}`,
+                {
+                    body: JSON.stringify({
+                            recipient: { id: recipientId },
+                            target_app_id: appId,
+                            metadata: metadata,
+                        }),
+                })
+            .catch((error) => {
+                log.error(error);
+                return Promise.reject(error);
+            });
+    }
+
+    takeControl(appId, recipientId, metadata = '') {
+        return this.proxyFetchFacebook(`${this.baseURL}/me/take_thread_control?access_token=${this.pageAccessToken}`,
+            {
+                body: JSON.stringify({
+                    recipient: { id: recipientId },
+                    target_app_id: appId,
+                    metadata: metadata,
+                }),
+            })
+            .catch((error) => {
+                log.error(error);
+                return Promise.reject(error);
+            });
+    }
 }
