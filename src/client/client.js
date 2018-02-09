@@ -65,16 +65,19 @@ export default class Client {
             });
     }
 
-    sendMessage(message, recipientId, notificationType = 'REGULAR') {
+    sendMessage(message, recipientId, notificationType = 'REGULAR', messagingType = 'RESPONSE') {
         const messageBody = message.hasOwnProperty('state') ? message.getMessage() : message;
         validate.notNull(recipientId, 'recipient.id', 'Client.send');
         validate.notNull(messageBody, 'message', 'Client.send');
         validate.oneOf(notificationType, ['REGULAR', 'SILENT_PUSH', 'NO_PUSH'], 'notification_type', 'Client.send');
+        validate.oneOf(messagingType, ['RESPONSE', 'UPDATE', 'MESSAGE_TAG', 'NON_PROMOTIONAL_SUBSCRIPTION'], 'messaging_type', 'Client.send');
+
 
         const facebookEnvelope = {
             recipient: { id: recipientId },
             message: { ...messageBody },
             notification_type: notificationType,
+            messaging_type: messagingType,
         };
 
         if (message.tag) {
