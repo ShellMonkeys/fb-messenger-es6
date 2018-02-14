@@ -6,17 +6,18 @@ const defaultStickerMap = {
     369239343222814: 'LIKE',
 };
 
-function ProcessMessage(entry, stickerMap, type = 'message') {
+function ProcessMessage(entry, stickerMap, isStandBy = false) {
     // check if sticker map null
 
     const message = {
         sender: entry.sender.id,
         recipient: entry.recipient.id,
         timestamp: entry.timestamp,
+        isStandBy: isStandBy,
     };
 
     if (entry.message && !entry.message.is_echo) {
-        message.type = type;
+        message.type = 'message';
 
         if (entry.message.text) {
             message.text = entry.message.text;
@@ -117,8 +118,7 @@ export default function ProcessIncoming(body, stickerMap = defaultStickerMap) {
         }
         const entryPayload = entry.hasOwnProperty('messaging') ? entry.messaging : entry.standby;
         entryPayload.forEach((message) => {
-            normalizedEntries[entry.id].push(ProcessMessage(message, stickerMap,
-                entry.hasOwnProperty('messaging') ? 'message' : 'standby'));
+            normalizedEntries[entry.id].push(ProcessMessage(message, stickerMap, entry.hasOwnProperty('standby')));
         });
     });
 
