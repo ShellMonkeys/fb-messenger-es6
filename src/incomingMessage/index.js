@@ -108,15 +108,15 @@ export default function ProcessIncoming(body, stickerMap = defaultStickerMap) {
     // Iterate through the entries
     body.entry.forEach((entry) => {
         // Only allow messaging objects
-        validate.required(entry, ['id', 'messaging'], 'ProcessIncoming');
+        validate.required(entry, ['id'], 'ProcessIncoming');
         // Messaging must also be an array
-        validate.isArray(entry.messaging, 'entry.messaging', 'ProcessIncoming');
+        validate.isArray(entry.messaging || entry.standby, 'entry.messaging', 'ProcessIncoming');
 
         if (!normalizedEntries.hasOwnProperty(entry.id)) {
             normalizedEntries[entry.id] = [];
         }
-
-        entry.messaging.forEach((message) => {
+        const entryPayload = entry.hasOwnProperty('messaging') ? entry.messaging : entry.standby;
+        entryPayload.forEach((message) => {
             normalizedEntries[entry.id].push(ProcessMessage(message, stickerMap));
         });
     });
