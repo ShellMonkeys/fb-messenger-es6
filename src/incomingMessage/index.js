@@ -115,9 +115,10 @@ export default function ProcessIncoming(body, stickerMap = defaultStickerMap) {
         if (!normalizedEntries.hasOwnProperty(entry.id)) {
             normalizedEntries[entry.id] = [];
         }
-        const entryType = entry.hasOwnProperty('messaging') ? 'messaging' : 'standby';
-        entry[entryType].forEach((message) => {
-            normalizedEntries[entry.id].push(ProcessMessage(message, stickerMap, type = entryType));
+        const entryPayload = entry.hasOwnProperty('messaging') ? entry.messaging : entry.standby;
+        entryPayload.forEach((message) => {
+            normalizedEntries[entry.id].push(ProcessMessage(message, stickerMap,
+                entry.hasOwnProperty('messaging') ? 'message' : 'standby'));
         });
     });
 
