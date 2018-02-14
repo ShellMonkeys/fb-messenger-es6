@@ -63,6 +63,16 @@ const testResponse = {
             result: 'unlink account success',
         }),
     },
+    passControl: {
+        json: () => ({
+            success: 'true',
+        }),
+    },
+    takeControl: {
+        json: () => ({
+            success: 'true',
+        }),
+    },
 };
 
 test('Client.constructor - no proxy', (expect) => {
@@ -217,6 +227,30 @@ test('Client.accountUnlinking', (expect) => {
     testClient.unlinkAccount('PSID')
         .then((resp) => {
             expect.same(resp, testResponse.accountUnlinking.json(), 'should return test response');
+            tearDown();
+        });
+});
+
+test('Client.passControl', (expect) => {
+    expect.plan(1);
+    sinon.stub(fetch, 'Promise')
+        .returns(Promise.resolve(testResponse.passControl));
+    const testClient = new Client('PAGE_ACCESS_TOKEN');
+    testClient.passControl('PSID', 'RECID')
+        .then((resp) => {
+            expect.same(resp, testResponse.passControl.json(), 'should return test response');
+            tearDown();
+        });
+});
+
+test('Client.takeControl', (expect) => {
+    expect.plan(1);
+    sinon.stub(fetch, 'Promise')
+        .returns(Promise.resolve(testResponse.takeControl));
+    const testClient = new Client('PAGE_ACCESS_TOKEN');
+    testClient.takeControl('PSID', 'RECID')
+        .then((resp) => {
+            expect.same(resp, testResponse.takeControl.json(), 'should return test response');
             tearDown();
         });
 });
