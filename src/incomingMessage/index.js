@@ -6,13 +6,14 @@ const defaultStickerMap = {
     369239343222814: 'LIKE',
 };
 
-function ProcessMessage(entry, stickerMap) {
+function ProcessMessage(entry, stickerMap, isStandBy = false) {
     // check if sticker map null
 
     const message = {
         sender: entry.sender.id,
         recipient: entry.recipient.id,
         timestamp: entry.timestamp,
+        isStandBy: isStandBy,
     };
 
     if (entry.message && !entry.message.is_echo) {
@@ -91,6 +92,16 @@ function ProcessMessage(entry, stickerMap) {
         }
         message.referral_type = entry.referral.type;
     }
+    else if (entry.pass_thread_control) {
+        message.type = 'pass_thread_control';
+        message.meta = entry.pass_thread_control.metadata;
+        message.app_id = entry.pass_thread_control.new_owner_app_id;
+    }
+    else if (entry.take_thread_control) {
+        message.type = 'take_thread_control';
+        message.meta = entry.take_thread_control.metadata;
+        message.app_id = entry.take_thread_control.previous_owner_app_id;
+    }
 
     return message;
 }
@@ -108,16 +119,16 @@ export default function ProcessIncoming(body, stickerMap = defaultStickerMap) {
     // Iterate through the entries
     body.entry.forEach((entry) => {
         // Only allow messaging objects
-        validate.required(entry, ['id', 'messaging'], 'ProcessIncoming');
+        validate.required(entry, ['id'], 'ProcessIncoming');
         // Messaging must also be an array
-        validate.isArray(entry.messaging, 'entry.messaging', 'ProcessIncoming');
+        validate.isArray(entry.messaging || entry.standby, 'entry.messaging', 'ProcessIncoming');
 
         if (!normalizedEntries.hasOwnProperty(entry.id)) {
             normalizedEntries[entry.id] = [];
         }
-
-        entry.messaging.forEach((message) => {
-            normalizedEntries[entry.id].push(ProcessMessage(message, stickerMap));
+        const entryPayload = entry.hasOwnProperty('messaging') ? entry.messaging : entry.standby;
+        entryPayload.forEach((message) => {
+            normalizedEntries[entry.id].push(ProcessMessage(message, stickerMap, entry.hasOwnProperty('standby')));
         });
     });
 
