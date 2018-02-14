@@ -92,6 +92,16 @@ function ProcessMessage(entry, stickerMap, isStandBy = false) {
         }
         message.referral_type = entry.referral.type;
     }
+    else if (entry.pass_thread_control) {
+        message.type = 'pass_thread_control';
+        message.meta = entry.pass_thread_control.metadata;
+        message.app_id = entry.pass_thread_control.new_owner_app_id;
+    }
+    else if (entry.take_thread_control) {
+        message.type = 'take_thread_control';
+        message.meta = entry.take_thread_control.metadata;
+        message.app_id = entry.take_thread_control.previous_owner_app_id;
+    }
 
     return message;
 }
