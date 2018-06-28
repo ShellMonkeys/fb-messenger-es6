@@ -90,7 +90,7 @@ facebook.sendMessage(new ImageAttachment(null, attachmentId));
     - Button Template
     - Generic Template
     - List Template
-- Buttons
+- [Buttons](https://gist.github.com/radTuti/5696449aca55f2a18662fdafb9eabdca)
     - URL button
     - Postback button
     - Call button
@@ -98,7 +98,9 @@ facebook.sendMessage(new ImageAttachment(null, attachmentId));
     - Log In and Log Out buttons
 - Quick Replies (works in text, rich media & structured messages)
 
-More to be added later
+More to be added later.
+
+psst...see [tests](https://github.com/ShellMonkeys/fb-messenger-es6/tree/master/test/message) for example of how messages are constructed.
 
 ### Receiving Messages
 This section has code snippets for an express.js app
