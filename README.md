@@ -29,17 +29,11 @@ import  { Client } from 'fb-messenger-es6';
 ```
 Initialize
 ```javascript
-const facebook = new Client(<PAGE_ACCESS_TOKEN>);
+const facebook = new Client(<PAGE_ACCESS_TOKEN>, null, API_VERSION);
 ```
 Using proxy
 ```javascript
-const facebook = new Client(<PAGE_ACCESS_TOKEN>, { hostname:<PROXY_HOSTNAME>, port: <PROXY_PORT> });
-```
-Specify the Graph API version
-
-Accepted versions: `v2.6`, `v2.7`, `v2.8`, `v2.9`
-```javascript
-const facebook = new Client(<PAGE_ACCESS_TOKEN>, null, API_VERSION);
+const facebook = new Client(<PAGE_ACCESS_TOKEN>, { hostname:<PROXY_HOSTNAME>, port: <PROXY_PORT> }, API_VERSION);
 ```
 
 ## Creating facebook app

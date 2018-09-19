@@ -15,9 +15,10 @@ const facebookMessengerAPIURL = 'https://graph.facebook.com';
 const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled', 'last_ad_referral'];
 
 export default class Client {
-    constructor(pageAccessToken, proxy = null, platformAPIVersion = 'v2.10') {
+    constructor(pageAccessToken, proxy = null, platformAPIVersion) {
         validate.notNull(pageAccessToken, 'PAGE_ACCESS_TOKEN', 'Client.constructor');
-        this.baseURL = `${facebookMessengerAPIURL}/${platformAPIVersion}`;
+        validate.notNull(platformAPIVersion, 'API_VERSION', 'Client.constructor');
+        this.baseURL = `${facebookMessengerAPIURL}/v${platformAPIVersion}`;
         this.pageAccessToken = pageAccessToken;
         this.setProxy(proxy);
         return this;
