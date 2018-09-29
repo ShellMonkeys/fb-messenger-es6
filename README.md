@@ -4,7 +4,7 @@ ___
 [![Build Status](https://img.shields.io/travis/ShellMonkeys/fb-messenger-es6.svg)](https://travis-ci.org/ShellMonkeys/fb-messenger-es6)
 [![Coverage Status](https://img.shields.io/coveralls/ShellMonkeys/fb-messenger-es6.svg)](https://coveralls.io/github/ShellMonkeys/fb-messenger-es6)
 
-Library to work with [Facebook Messenger APIs](https://developers.facebook.com/docs/…).
+Library to work with [Facebook Messenger APIs](https://developers.facebook.com/docs/messenger-platform/).
 
 Table of Contents
 =================
@@ -37,7 +37,7 @@ const facebook = new Client(<PAGE_ACCESS_TOKEN>, { hostname:<PROXY_HOSTNAME>, po
 ```
 
 ## Creating facebook app
-[See facebook tutorial](https://developers.facebook.com/docs/messenger-platform/guides/quick-start)
+[See facebook tutorial](https://developers.facebook.com/docs/messenger-platform/getting-started)
 
 
 ## Conversation
@@ -97,15 +97,38 @@ More to be added later.
 psst...see [tests](https://github.com/ShellMonkeys/fb-messenger-es6/tree/master/test/message) for example of how messages are constructed.
 
 ### Receiving Messages
-This section has code snippets for an express.js app
+This section has code snippets for mostly express.js app
 
 You should validate the signature before proceeding
+Express:
 ```javascript
 import bodyParser from 'body-parser';
 import { ValidateSignature } from 'fb-messenger-es6';
 ...
 const validator = new ValidateSignature(APP_SECRET);
-app.post('/webhook', bodyParser.json({ verify: (req, res, bf) => validator.validate(req, res, bf) }));
+app.post('/webhook', bodyParser.json({ verify: (req, res, bf) => validator.express(req, res, bf) }));
+```
+
+Hapi:
+```javascript
+import { ValidateSignature } from 'fb-messenger-es6';
+
+const validator = new ValidateSignature(APP_SECRET);
+...
+server.route({
+  method: 'POST',
+  path: '/webhook',
+  handler,
+  options: {
+    pre: [
+      {
+        method: validator.hapi,
+        assign: 'signature',
+        failAction: 'error',
+      },
+    ],
+  },
+});
 ```
 
 You can process the callbacks using `ProcessIncoming` which returns a minimal version of the callback to make it easier to handle
