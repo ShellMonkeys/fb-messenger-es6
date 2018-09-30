@@ -10,6 +10,23 @@ import {
     VideoAttachment,
 } from '../index';
 
+export const MESSAGING_TYPE = {
+    RESPONSE: 'RESPONSE',
+    UPDATE: 'UPDATE',
+    MESSAGE_TAG: 'MESSAGE_TAG',
+};
+
+export const NOTIFICATION_TYPE = {
+    REGULAR: 'REGULAR',
+    SILENT_PUSH: 'SILENT_PUSH',
+    NO_PUSH: 'NO_PUSH',
+};
+
+export const SENDER_ACTION = {
+    SEEN: 'mark_seen',
+    TYPING_ON: 'typing_on',
+    TYPING_OFF: 'typing_off',
+};
 
 const facebookMessengerAPIURL = 'https://graph.facebook.com';
 const userProfileFields = ['first_name', 'last_name', 'profile_pic', 'locale', 'timezone', 'gender', 'is_payment_enabled', 'last_ad_referral'];
@@ -66,12 +83,12 @@ export default class Client {
             });
     }
 
-    sendMessage(message, recipientId, notificationType = 'REGULAR', messagingType = 'RESPONSE') {
+    sendMessage(message, recipientId, notificationType = NOTIFICATION_TYPE.REGULAR, messagingType = MESSAGING_TYPE.RESPONSE) {
         const messageBody = message.hasOwnProperty('state') ? message.getMessage() : message;
         validate.notNull(recipientId, 'recipient.id', 'Client.send');
         validate.notNull(messageBody, 'message', 'Client.send');
-        validate.oneOf(notificationType, ['REGULAR', 'SILENT_PUSH', 'NO_PUSH'], 'notification_type', 'Client.send');
-        validate.oneOf(messagingType, ['RESPONSE', 'UPDATE', 'MESSAGE_TAG', 'NON_PROMOTIONAL_SUBSCRIPTION'], 'messaging_type', 'Client.send');
+        validate.oneOf(notificationType, NOTIFICATION_TYPE, 'notification_type', 'Client.send');
+        validate.oneOf(messagingType, MESSAGING_TYPE, 'messaging_type', 'Client.send');
 
 
         const facebookEnvelope = {
@@ -109,7 +126,7 @@ export default class Client {
     sendAction(action, recipientId) {
         validate.notNull(recipientId, 'recipient.id', 'Client.senderActions');
         validate.notNull(action, 'sender_action', 'Client.senderActions');
-        validate.oneOf(action, ['mark_seen', 'typing_on', 'typing_off'], 'sender_action.type', 'Client.senderActions');
+        validate.oneOf(action, SENDER_ACTION, 'sender_action.type', 'Client.senderActions');
 
         const facebookEnvelope = {
             recipient: { id: recipientId },
@@ -124,11 +141,11 @@ export default class Client {
     }
 
     markSeen(recipientId) {
-        return this.sendAction('mark_seen', recipientId);
+        return this.sendAction(SENDER_ACTION.SEEN, recipientId);
     }
 
     typingToggle(typing, recipientId) {
-        return this.sendAction(typing ? 'typing_on' : 'typing_off', recipientId);
+        return this.sendAction(typing ? SENDER_ACTION.TYPING_ON : SENDER_ACTION.TYPING_OFF, recipientId);
     }
 
     validateMessengerProfile(profile, fields = true) {

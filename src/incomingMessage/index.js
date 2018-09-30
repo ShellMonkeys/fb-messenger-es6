@@ -29,28 +29,26 @@ function ProcessMessage(entry, stickerMap, isStandBy = false) {
 
         if (entry.message.attachments) {
             validate.isArray(entry.message.attachments, 'entry.message.attachments', 'ProcessMessage');
-            message.attachments = [];
-            for (const attachment of entry.message.attachments) {
-                const flatAttachment = {
-                    type: attachment.type,
-                };
-
-                if (attachment.type === 'location') {
-                    flatAttachment.long = attachment.payload.coordinates.long;
-                    flatAttachment.lat = attachment.payload.coordinates.lat;
-                }
-                else if (attachment.payload.sticker_id) {
-                    flatAttachment.type = 'sticker';
-                    flatAttachment.sticker_id = attachment.payload.sticker_id;
-                    if (stickerMap.hasOwnProperty(flatAttachment.sticker_id)) {
-                        flatAttachment.sticker_type = stickerMap[flatAttachment.sticker_id];
-                    }
-                }
-                else if (['image', 'audio', 'video', 'file'].includes(attachment.type)) {
-                    flatAttachment.url = attachment.payload.url;
-                }
-                message.attachments.push(flatAttachment);
-            }
+            message.attachments = entry.message.attachments.map((attachment) => {
+              const flatAttachment = {
+                  type: attachment.type,
+              };
+              if (attachment.type === 'location') {
+                  flatAttachment.long = attachment.payload.coordinates.long;
+                  flatAttachment.lat = attachment.payload.coordinates.lat;
+              }
+              else if (attachment.payload.sticker_id) {
+                  flatAttachment.type = 'sticker';
+                  flatAttachment.sticker_id = attachment.payload.sticker_id;
+                  if (stickerMap.hasOwnProperty(flatAttachment.sticker_id)) {
+                      flatAttachment.sticker_type = stickerMap[flatAttachment.sticker_id];
+                  }
+              }
+              else if (['image', 'audio', 'video', 'file'].includes(attachment.type)) {
+                  flatAttachment.url = attachment.payload.url;
+              }
+              return flatAttachment;
+            });
         }
     }
     else if (entry.message && entry.message.is_echo) {

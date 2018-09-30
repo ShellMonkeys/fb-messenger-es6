@@ -134,8 +134,10 @@ validate.oneOf = (arg, validValues, nameOfArg, ownerOfArg) => {
     checkDefaultParams(arg, ownerOfArg, 'oneOf');
     checkParam(nameOfArg, 'name of argument', 'oneOf');
     checkParam(validValues, 'valid values', 'oneOf');
-    if (!validValues.includes(arg)) {
-        throw new Error(`${ownerOfArg}: ${nameOfArg} must be one of ${validValues}`);
+    let values = typeof validValues === 'string' ? [validValues] : validValues;
+    values = Array.isArray(validValues) ? validValues : Object.values(validValues);
+    if (!values.includes(arg)) {
+        throw new Error(`${ownerOfArg}: ${nameOfArg} must be one of ${values}`);
     }
 };
 
