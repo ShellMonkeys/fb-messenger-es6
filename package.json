@@ -4,6 +4,7 @@
   "description": "Facebook Messenger plaform library",
   "main": "dist",
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "babel src -s -D -d dist",
     "clean": "rm -rf ./node_modules/.cache ./dist ./coverage ./.nyc_output",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
@@ -32,6 +33,7 @@
   },
   "homepage": "https://github.com/ShellMonkeys/fb-messenger-es6#readme",
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "https-proxy-agent": "^2.2.1",
     "moment": "^2.22.2",
     "node-fetch": "^2.2.0",
